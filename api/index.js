@@ -4,8 +4,6 @@ import mongoose from "mongoose";
 
 dotenv.config();
 
-const app = express();
-
 mongoose
     .connect(process.env.MONGO)
     .then(() => {
@@ -13,3 +11,7 @@ mongoose
         app.listen(3000, () => console.log("Server running on port 3000"));
     })
     .catch((err) => console.log(err.message));
+
+const app = express();
+
+app.use(express.json());
