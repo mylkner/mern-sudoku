@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 const SignIn = () => {
-    return <div>SignIn</div>;
+    return <Link to={"/sign-up"}>Sign Up</Link>;
 };
 
 export default SignIn;
