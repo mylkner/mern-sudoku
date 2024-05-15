@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRouter from "./routes/authRoute.js";
+import sudokoRouter from "./routes/sudokuRoute.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth/", authRouter);
+app.use("/api/sudoku/", sudokoRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GridCell from "./GridCell";
 import GenerateGame from "./GenerateGame";
 
@@ -11,7 +11,13 @@ const Grid = () => {
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
 
-    const generateRegionBorder = (row, column) => {
+    useEffect(() => {
+        generateGridMatrixValues();
+    });
+
+    async function generateGridMatrixValues() {}
+
+    function generateRegionBorder(row, column) {
         if (column % 3 === 2 && row % 3 === 2) {
             return "border border-r-slate-700 border-b-slate-700";
         } else if (column % 3 === 2) {
@@ -21,9 +27,9 @@ const Grid = () => {
         } else {
             return "border";
         }
-    };
+    }
 
-    const handleOnFocus = (row, column) => {
+    function handleOnFocus(row, column) {
         setGridColors(gridColorsInitial);
         const gridColorsCopy = [...gridColorsInitial];
 
@@ -41,13 +47,13 @@ const Grid = () => {
         gridColorsCopy[row][column] = "bg-blue-700";
 
         setGridColors(gridColorsCopy);
-    };
+    }
 
-    const handleValueChange = (e, row, column) => {
+    function handleValueChange(e, row, column) {
         const gridMatrixCopy = [...gridMatrix];
         gridMatrixCopy[row][column] = e.target.value;
         setGridMatrix(gridMatrixCopy);
-    };
+    }
 
     const gridDisplay = [];
 
@@ -76,7 +82,10 @@ const Grid = () => {
                 {gridDisplay}
             </div>
             <div className="flex-1">
-                <GenerateGame />
+                <GenerateGame
+                    gridValues={gridMatrix}
+                    generator={generateGridMatrixValues}
+                />
             </div>
         </div>
     );
