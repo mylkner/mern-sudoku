@@ -6,8 +6,14 @@ import Timer from "./Timer";
 import Difficulty from "./Difficulty";
 import Buttons from "./Buttons";
 import PauseScreen from "./PauseScreen";
-import { reset, setIsPaused, setIsPlaying } from "../../redux/sudokuSlice";
 import GameComplete from "./GameComplete";
+import GameOver from "./GameOver";
+import {
+    reset,
+    setGameOver,
+    setIsPaused,
+    setIsPlaying,
+} from "../../redux/sudokuSlice";
 
 const Grid = () => {
     const dispatch = useDispatch();
@@ -22,6 +28,7 @@ const Grid = () => {
         Array.from({ length: 9 }, () => "bg-white")
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
+    const [mistakes, setMistakes] = useState(0);
 
     async function generateGame() {
         setGridColors(gridColorsInitial);
@@ -41,6 +48,7 @@ const Grid = () => {
             const { data } = await axios.get("/api/sudoku/reset-game");
             setGridMatrix(data.board);
             setGridColors(gridColorsInitial);
+            setMistakes(0);
             dispatch(reset());
         } catch (error) {
             console.log(error.message);
@@ -88,6 +96,12 @@ const Grid = () => {
             const gridColorsCopy = gridColors.map((arr) => arr.slice(0));
             gridColorsCopy[row][column] = "bg-red-700";
             setGridColors(gridColorsCopy);
+
+            const mistakesValue = mistakes + 1;
+            setMistakes(mistakesValue);
+
+            if (mistakesValue === 3) return dispatch(setGameOver());
+
             return;
         }
 
@@ -136,12 +150,20 @@ const Grid = () => {
             <div className="flex flex-col justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
                 <div className="flex flex-col gap-1">
                     <div className="flex justify-between text-xl text-white">
-                        <p>
+                        <p className="w-1/3">
                             {difficulty.slice(0, 1).toUpperCase() +
                                 difficulty.slice(1)}{" "}
                             Mode
                         </p>
-                        <Timer />
+                        <p className="w-1/3 text-center">
+                            Mistakes:{" "}
+                            <span className="text-red-600 font-semibold">
+                                {mistakes}/3
+                            </span>
+                        </p>
+                        <span className="w-1/3 text-right">
+                            <Timer />
+                        </span>
                     </div>
                     <div className="flex flex-wrap border border-black max-w-[450px] relative">
                         {gridDisplay}
@@ -161,6 +183,7 @@ const Grid = () => {
                 </div>
             </div>
             <GameComplete board={gridMatrix} onClick={resetGame} />
+            <GameOver onClick={resetGame} />
         </>
     );
 };
