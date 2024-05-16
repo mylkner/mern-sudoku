@@ -23,7 +23,7 @@ const Grid = () => {
 
     function handleOnCellClick(row, column) {
         setGridColors(gridColorsInitial);
-        const gridColorsCopy = [...gridColorsInitial];
+        const gridColorsCopy = gridColorsInitial.map((arr) => arr.slice(0));
 
         for (let i = 0; i < 9; i++) {
             const regionRow = 3 * Math.floor(row / 3) + Math.floor(i / 3);
@@ -57,17 +57,17 @@ const Grid = () => {
 
     async function handleValueChange(e, row, column) {
         const inputValue = Number(e.target.value);
-        const isValid = await isInputValid(e, row, column);
+        const isValid = await isInputValid(inputValue, row, column);
 
         if (!isValid) {
-            const gridColorsCopy = [...gridColors];
+            const gridColorsCopy = gridColors.map((arr) => arr.slice(0));
             gridColorsCopy[row][column] = "bg-red-700";
             setGridColors(gridColorsCopy);
             return;
         }
 
-        const gridMatrixCopy = [...gridMatrix];
-        const gridColorsCopy = [...gridColors];
+        const gridMatrixCopy = gridMatrix.map((arr) => arr.slice(0));
+        const gridColorsCopy = gridColors.map((arr) => arr.slice(0));
         gridMatrixCopy[row][column] = inputValue;
         gridColorsCopy[row][column] = "bg-green-700";
         setGridMatrix(gridMatrixCopy);
