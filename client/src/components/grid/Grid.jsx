@@ -132,29 +132,36 @@ const Grid = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
-            <div className="flex flex-col gap-1">
-                <div className="flex justify-between text-xl text-white">
-                    <p>
-                        {difficulty.slice(0, 1).toUpperCase() +
-                            difficulty.slice(1)}{" "}
-                        Mode
-                    </p>
-                    <Timer />
+        <>
+            <div className="flex flex-col justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
+                <div className="flex flex-col gap-1">
+                    <div className="flex justify-between text-xl text-white">
+                        <p>
+                            {difficulty.slice(0, 1).toUpperCase() +
+                                difficulty.slice(1)}{" "}
+                            Mode
+                        </p>
+                        <Timer />
+                    </div>
+                    <div className="flex flex-wrap border border-black max-w-[450px] relative">
+                        {gridDisplay}
+                        {isPaused && (
+                            <PauseScreen
+                                onClick={() => dispatch(setIsPaused())}
+                            />
+                        )}
+                    </div>
                 </div>
-                <div className="flex flex-wrap border border-black max-w-[450px] relative">
-                    {gridDisplay}
-                    {isPaused && (
-                        <PauseScreen onClick={() => dispatch(setIsPaused())} />
-                    )}
+                <div className="flex flex-col gap-2">
+                    <Difficulty />
+                    <Buttons
+                        generateGame={generateGame}
+                        resetGame={resetGame}
+                    />
                 </div>
-            </div>
-            <div className="flex flex-col gap-2">
-                <Difficulty />
-                <Buttons generateGame={generateGame} resetGame={resetGame} />
             </div>
             <GameComplete board={gridMatrix} />
-        </div>
+        </>
     );
 };
 

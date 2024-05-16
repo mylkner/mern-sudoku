@@ -5,6 +5,7 @@ const initialState = {
     isPaused: false,
     time: 0,
     difficulty: "easy",
+    gameComplete: false,
 };
 
 const sudokuSlice = createSlice({
@@ -29,6 +30,11 @@ const sudokuSlice = createSlice({
             state.isPlaying = false;
             state.isPaused = false;
             state.time = 0;
+            state.gameComplete = false;
+        },
+        setGameComplete: (state) => {
+            state.gameComplete = true;
+            state.isPlaying = false;
         },
     },
 });
@@ -39,6 +45,7 @@ export const {
     setDifficulty,
     setIsPaused,
     reset,
+    setGameComplete,
 } = sudokuSlice.actions;
 
 export default sudokuSlice.reducer;
