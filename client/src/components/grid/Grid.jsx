@@ -41,10 +41,10 @@ const Grid = () => {
         setGridColors(gridColorsCopy);
     }
 
-    async function isInputValid(e, row, column) {
+    async function isInputValid(value, row, column) {
         try {
             const { data } = await axios.post("/api/sudoku/validate-number", {
-                value: e.target.value,
+                value,
                 row,
                 column,
             });
@@ -56,6 +56,7 @@ const Grid = () => {
     }
 
     async function handleValueChange(e, row, column) {
+        const inputValue = Number(e.target.value);
         const isValid = await isInputValid(e, row, column);
 
         if (!isValid) {
@@ -67,7 +68,7 @@ const Grid = () => {
 
         const gridMatrixCopy = [...gridMatrix];
         const gridColorsCopy = [...gridColors];
-        gridMatrixCopy[row][column] = e.target.value;
+        gridMatrixCopy[row][column] = inputValue;
         gridColorsCopy[row][column] = "bg-green-700";
         setGridMatrix(gridMatrixCopy);
         setGridColors(gridColorsCopy);

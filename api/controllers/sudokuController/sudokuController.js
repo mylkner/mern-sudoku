@@ -24,7 +24,7 @@ export const generateGame = (req, res, next) => {
 export const validateNumber = (req, res, next) => {
     const { value, row, column } = req.body;
     console.log(board[row][column], value);
-    if (board[row][column] === Number(value)) {
+    if (board[row][column] === value) {
         console.log("true");
         res.status(200).json({ success: true });
     } else {
