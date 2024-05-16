@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { reset, setGameComplete } from "../../redux/sudokuSlice";
+import { setGameComplete } from "../../redux/sudokuSlice";
 
-const GameComplete = ({ board }) => {
+const GameComplete = ({ board, onClick }) => {
     const dispatch = useDispatch();
     const { gameComplete, time, difficulty } = useSelector(
         (state) => state.sudoku
@@ -42,7 +42,7 @@ const GameComplete = ({ board }) => {
                     <br />
                     <button
                         className="w-full bg-blue-500 p-3 text-white font-bold text-xl border border-black rounded-lg"
-                        onClick={() => dispatch(reset())}
+                        onClick={onClick}
                     >
                         Continue
                     </button>

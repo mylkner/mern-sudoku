@@ -160,7 +160,7 @@ const Grid = () => {
                     />
                 </div>
             </div>
-            <GameComplete board={gridMatrix} />
+            <GameComplete board={gridMatrix} onClick={resetGame} />
         </>
     );
 };
