@@ -89,6 +89,9 @@ const Grid = () => {
     }
 
     async function handleValueChange(e, row, column) {
+        console.log(e.target.value);
+        if (e.target.value === "e") return;
+
         const inputValue = Number(e.target.value);
         const isValid = await isInputValid(inputValue, row, column);
 
@@ -147,7 +150,7 @@ const Grid = () => {
 
     return (
         <>
-            <div className="flex flex-col justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
+            <div className="flex flex-col justify-center max-w-[80%] md:flex-row mx-auto my-5 gap-3 p-5">
                 <div className="flex flex-col gap-1">
                     <div className="flex justify-between text-xl text-white">
                         <p className="w-1/3">
@@ -165,7 +168,7 @@ const Grid = () => {
                             <Timer />
                         </span>
                     </div>
-                    <div className="flex flex-wrap border border-black max-w-[450px] relative">
+                    <div className="flex flex-wrap border border-black w-full md:max-w-[450px] md:min-w-[400px] relative">
                         {gridDisplay}
                         {isPaused && (
                             <PauseScreen
