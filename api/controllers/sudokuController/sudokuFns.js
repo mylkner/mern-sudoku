@@ -43,10 +43,16 @@ export function solve(board) {
     return true;
 }
 
-export function removeCells(board, difficulty = 0.5) {
+export function removeCells(board, difficulty) {
+    const difficultyLevel = {
+        easy: 0.5,
+        medium: 0.65,
+        hard: 0.8,
+    };
+
     const partialBoard = board.map((arr) => arr.slice(0));
 
-    const cellsToRemove = Math.floor(81 * difficulty);
+    const cellsToRemove = Math.floor(81 * difficultyLevel[difficulty]);
     const cellIndices = Array.from({ length: 81 }, (_, i) => i);
     const shuffledIndices = shuffleArray(cellIndices);
 

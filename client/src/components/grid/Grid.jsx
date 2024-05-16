@@ -1,8 +1,14 @@
 import { useState } from "react";
 import GridCell from "./GridCell";
 import axios from "axios";
+import Timer from "./Timer";
+import { setIsPlaying } from "../../redux/sudokuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Difficulty from "./Difficulty";
 
 const Grid = () => {
+    const dispatch = useDispatch();
+    const { difficulty, isPlaying } = useSelector((state) => state.sudoku);
     const [gridMatrix, setGridMatrix] = useState(
         Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
     );
@@ -14,8 +20,11 @@ const Grid = () => {
     const generateGame = async () => {
         setGridColors(gridColorsInitial);
         try {
-            const { data } = await axios.post("/api/sudoku/generate-game");
+            const { data } = await axios.post("/api/sudoku/generate-game", {
+                difficulty,
+            });
             setGridMatrix(data.partialBoard);
+            dispatch(setIsPlaying());
         } catch (error) {
             console.log(error.message);
         }
@@ -106,12 +115,29 @@ const Grid = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
-            <div className="flex flex-wrap border border-black max-w-[450px] flex-1">
-                {gridDisplay}
+        <div className="flex flex-col justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
+            <div className="flex flex-col gap-1">
+                <div className="flex justify-between text-xl text-white">
+                    <p>
+                        {difficulty.slice(0, 1).toUpperCase() +
+                            difficulty.slice(1)}{" "}
+                        Mode
+                    </p>
+                    <Timer />
+                </div>
+                <div className="flex flex-wrap border border-black max-w-[450px]">
+                    {gridDisplay}
+                </div>
             </div>
-            <div className="flex-1">
-                <button onClick={generateGame}>Play</button>
+            <div className="flex flex-col gap-2">
+                <Difficulty />
+                <button
+                    onClick={generateGame}
+                    className="disabled:opacity-60 w-full bg-white border border-black rounded-lg text-black p-3 font-bold"
+                    disabled={isPlaying}
+                >
+                    Play
+                </button>
             </div>
         </div>
     );

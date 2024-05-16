@@ -14,7 +14,7 @@ export const generateGame = (req, res, next) => {
         }
 
         solve(board);
-        const partialBoard = removeCells(board);
+        const partialBoard = removeCells(board, req.body.difficulty);
         res.status(200).json({ success: true, partialBoard });
     } catch (error) {
         next(error);
