@@ -5,11 +5,12 @@ import GridCell from "./GridCell";
 import Timer from "./Timer";
 import Difficulty from "./Difficulty";
 import Buttons from "./Buttons";
-import { reset, setIsPlaying } from "../../redux/sudokuSlice";
+import PauseScreen from "./PauseScreen";
+import { reset, setIsPaused, setIsPlaying } from "../../redux/sudokuSlice";
 
 const Grid = () => {
     const dispatch = useDispatch();
-    const { difficulty } = useSelector((state) => state.sudoku);
+    const { difficulty, isPaused } = useSelector((state) => state.sudoku);
 
     const [gridMatrix, setGridMatrix] = useState(
         Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
@@ -138,8 +139,11 @@ const Grid = () => {
                     </p>
                     <Timer />
                 </div>
-                <div className="flex flex-wrap border border-black max-w-[450px]">
+                <div className="flex flex-wrap border border-black max-w-[450px] relative">
                     {gridDisplay}
+                    {isPaused && (
+                        <PauseScreen onClick={() => dispatch(setIsPaused())} />
+                    )}
                 </div>
             </div>
             <div className="flex flex-col gap-2">

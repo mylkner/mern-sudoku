@@ -4,13 +4,14 @@ import { setIsPaused } from "../../redux/sudokuSlice";
 
 const Buttons = (props) => {
     const dispatch = useDispatch();
-    const { isPlaying } = useSelector((state) => state.sudoku);
+    const { isPlaying, isPaused } = useSelector((state) => state.sudoku);
+    const pauseButtonBgColor = isPaused ? "bg-blue-500" : "bg-white";
 
     return (
         <>
             <button
                 onClick={() => dispatch(setIsPaused())}
-                className="w-full bg-white border border-black rounded-lg text-black p-3 font-bold"
+                className={`w-full ${pauseButtonBgColor} border border-black rounded-lg text-black p-3 font-bold`}
                 disabled={!isPlaying}
             >
                 Pause
