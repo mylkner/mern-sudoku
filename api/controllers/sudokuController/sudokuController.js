@@ -1,0 +1,33 @@
+import { shuffleArray, solve, removeCells } from "./sudokuFns.js";
+
+let board;
+
+export const generateGame = (req, res, next) => {
+    try {
+        board = Array.from({ length: 9 }, () =>
+            Array.from({ length: 9 }, () => "")
+        );
+        const firstRow = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+        for (let i = 0; i < 9; i++) {
+            board[0][i] = firstRow[i];
+        }
+
+        solve(board);
+        const partialBoard = removeCells(board);
+        res.status(200).json({ success: true, partialBoard });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const validateNumber = (req, res, next) => {
+    const { value, row, column } = req.body;
+    console.log(board[row][column], value);
+    if (board[row][column] === Number(value)) {
+        console.log("true");
+        res.status(200).json({ success: true });
+    } else {
+        res.status(200).json({ success: false });
+    }
+};

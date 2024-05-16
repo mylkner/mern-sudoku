@@ -1,8 +1,12 @@
 import express from "express";
-import { generateGame } from "../controllers/sudokuController.js";
+import {
+    generateGame,
+    validateNumber,
+} from "../controllers/sudokuController/sudokuController.js";
 
 const router = express.Router();
 
-router.get("/generate-game", generateGame);
+router.post("/generate-game", generateGame);
+router.post("/validate-number", validateNumber);
 
 export default router;
