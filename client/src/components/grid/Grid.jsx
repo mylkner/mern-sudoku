@@ -1,35 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GridCell from "./GridCell";
-import GenerateGame from "./GenerateGame";
+import axios from "axios";
 
 const Grid = () => {
     const [gridMatrix, setGridMatrix] = useState(
-        Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0))
+        Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
     );
     const gridColorsInitial = Array.from({ length: 9 }, () =>
         Array.from({ length: 9 }, () => "bg-white")
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
 
-    useEffect(() => {
-        generateGridMatrixValues();
-    });
-
-    async function generateGridMatrixValues() {}
-
     function generateRegionBorder(row, column) {
         if (column % 3 === 2 && row % 3 === 2) {
-            return "border border-r-slate-700 border-b-slate-700";
+            return "border-r-slate-700 border-b-slate-700";
         } else if (column % 3 === 2) {
-            return "border border-r-slate-700";
+            return "border-r-slate-700";
         } else if (row % 3 === 2) {
-            return "border border-b-slate-700";
-        } else {
-            return "border";
+            return "border-b-slate-700";
         }
     }
 
-    function handleOnFocus(row, column) {
+    function handleOnCellClick(row, column) {
         setGridColors(gridColorsInitial);
         const gridColorsCopy = [...gridColorsInitial];
 
@@ -49,10 +41,36 @@ const Grid = () => {
         setGridColors(gridColorsCopy);
     }
 
-    function handleValueChange(e, row, column) {
+    async function isInputValid(e, row, column) {
+        try {
+            const { data } = await axios.post("/api/sudoku/validate-number", {
+                value: e.target.value,
+                row,
+                column,
+            });
+
+            return data.success;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function handleValueChange(e, row, column) {
+        const isValid = await isInputValid(e, row, column);
+
+        if (!isValid) {
+            const gridColorsCopy = [...gridColors];
+            gridColorsCopy[row][column] = "bg-red-700";
+            setGridColors(gridColorsCopy);
+            return;
+        }
+
         const gridMatrixCopy = [...gridMatrix];
+        const gridColorsCopy = [...gridColors];
         gridMatrixCopy[row][column] = e.target.value;
+        gridColorsCopy[row][column] = "bg-green-700";
         setGridMatrix(gridMatrixCopy);
+        setGridColors(gridColorsCopy);
     }
 
     const gridDisplay = [];
@@ -67,8 +85,9 @@ const Grid = () => {
                     value={gridMatrix[row][column]}
                     bg={gridColors[row][column]}
                     border={generateRegionBorder(row, column)}
-                    onFocus={() => handleOnFocus(row, column)}
+                    onClick={() => handleOnCellClick(row, column)}
                     onChange={(e) => handleValueChange(e, row, column)}
+                    disabled={gridMatrix[row][column]}
                 />
             );
         }
@@ -76,16 +95,23 @@ const Grid = () => {
         gridDisplay.push(displayRow);
     }
 
+    const generateGame = async () => {
+        setGridColors(gridColorsInitial);
+        try {
+            const { data } = await axios.post("/api/sudoku/generate-game");
+            setGridMatrix(data.partialBoard);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
     return (
         <div className="flex flex-col items-center justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
             <div className="flex flex-wrap border border-black max-w-[450px] flex-1">
                 {gridDisplay}
             </div>
             <div className="flex-1">
-                <GenerateGame
-                    gridValues={gridMatrix}
-                    generator={generateGridMatrixValues}
-                />
+                <button onClick={generateGame}>Play</button>
             </div>
         </div>
     );
