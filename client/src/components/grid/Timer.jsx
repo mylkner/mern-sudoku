@@ -18,7 +18,7 @@ const Timer = () => {
             }, 1000);
             return () => clearInterval(interval);
         }
-    }, [isPlaying, time, isPaused, dispatch]);
+    }, [isPlaying, time, isPaused]);
 
     return <span>{mins + ":" + secondsFormatted}</span>;
 };
