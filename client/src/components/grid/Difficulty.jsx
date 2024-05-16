@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDifficulty } from "../../redux/sudokuSlice";
 
 const Button = (props) => {
-    const { difficulty } = useSelector((state) => state.sudoku);
+    const { difficulty, isPlaying } = useSelector((state) => state.sudoku);
     const difficultyWithCapital =
         difficulty.slice(0, 1).toUpperCase() + difficulty.slice(1);
 
@@ -11,7 +11,7 @@ const Button = (props) => {
 
     return (
         <button
-            disabled={props.isPlaying}
+            disabled={isPlaying}
             onClick={props.onClick}
             className={`disabled:opacity-60 text-center w-[30%] text-black ${bgColor} border border-black rounded-lg p-3 font-bold`}
         >
@@ -22,7 +22,6 @@ const Button = (props) => {
 
 const Difficulty = () => {
     const dispatch = useDispatch();
-    const { isPlaying } = useSelector((state) => state.sudoku);
 
     const buttons = [
         {
@@ -44,12 +43,7 @@ const Difficulty = () => {
             <p className="text-xl text-white">Difficulty: </p>
 
             {buttons.map(({ text, onClick }) => (
-                <Button
-                    key={text}
-                    isPlaying={isPlaying}
-                    onClick={onClick}
-                    text={text}
-                />
+                <Button key={text} onClick={onClick} text={text} />
             ))}
         </div>
     );

@@ -1,6 +1,6 @@
 import { shuffleArray, solve, removeCells } from "./sudokuFns.js";
 
-let board;
+let board = null;
 
 export const generateGame = (req, res, next) => {
     try {
@@ -29,5 +29,16 @@ export const validateNumber = (req, res, next) => {
         res.status(200).json({ success: true });
     } else {
         res.status(200).json({ success: false });
+    }
+};
+
+export const resetGame = (req, res, next) => {
+    try {
+        board = Array.from({ length: 9 }, () =>
+            Array.from({ length: 9 }, () => "")
+        );
+        res.status(200).json({ success: true, board });
+    } catch (error) {
+        next(error);
     }
 };

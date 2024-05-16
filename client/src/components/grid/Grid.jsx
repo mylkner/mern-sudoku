@@ -1,14 +1,16 @@
 import { useState } from "react";
-import GridCell from "./GridCell";
-import axios from "axios";
-import Timer from "./Timer";
-import { setIsPlaying } from "../../redux/sudokuSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import GridCell from "./GridCell";
+import Timer from "./Timer";
 import Difficulty from "./Difficulty";
+import Buttons from "./Buttons";
+import { reset, setIsPlaying } from "../../redux/sudokuSlice";
 
 const Grid = () => {
     const dispatch = useDispatch();
-    const { difficulty, isPlaying } = useSelector((state) => state.sudoku);
+    const { difficulty } = useSelector((state) => state.sudoku);
+
     const [gridMatrix, setGridMatrix] = useState(
         Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
     );
@@ -17,7 +19,7 @@ const Grid = () => {
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
 
-    const generateGame = async () => {
+    async function generateGame() {
         setGridColors(gridColorsInitial);
         try {
             const { data } = await axios.post("/api/sudoku/generate-game", {
@@ -28,7 +30,18 @@ const Grid = () => {
         } catch (error) {
             console.log(error.message);
         }
-    };
+    }
+
+    async function resetGame() {
+        try {
+            const { data } = await axios.get("/api/sudoku/reset-game");
+            setGridMatrix(data.board);
+            setGridColors(gridColorsInitial);
+            dispatch(reset());
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 
     function handleOnCellClick(row, column) {
         setGridColors(gridColorsInitial);
@@ -131,13 +144,7 @@ const Grid = () => {
             </div>
             <div className="flex flex-col gap-2">
                 <Difficulty />
-                <button
-                    onClick={generateGame}
-                    className="disabled:opacity-60 w-full bg-white border border-black rounded-lg text-black p-3 font-bold"
-                    disabled={isPlaying}
-                >
-                    Play
-                </button>
+                <Buttons generateGame={generateGame} resetGame={resetGame} />
             </div>
         </div>
     );

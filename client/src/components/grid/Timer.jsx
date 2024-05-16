@@ -4,7 +4,7 @@ import { incrementTime } from "../../redux/sudokuSlice";
 
 const Timer = () => {
     const dispatch = useDispatch();
-    const { isPlaying, time } = useSelector((state) => state.sudoku);
+    const { isPlaying, time, isPaused } = useSelector((state) => state.sudoku);
 
     const mins =
         time < 600 ? "0" + Math.floor(time / 60) : Math.floor(time / 60);
@@ -12,13 +12,13 @@ const Timer = () => {
     const secondsFormatted = seconds < 10 ? "0" + seconds : seconds;
 
     useEffect(() => {
-        if (isPlaying) {
+        if (isPlaying && !isPaused) {
             const interval = setInterval(() => {
                 dispatch(incrementTime());
             }, 1000);
             return () => clearInterval(interval);
         }
-    }, [isPlaying, time, dispatch]);
+    }, [isPlaying, time, isPaused, dispatch]);
 
     return <span>{mins + ":" + secondsFormatted}</span>;
 };
