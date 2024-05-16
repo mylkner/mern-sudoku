@@ -7,10 +7,13 @@ import Difficulty from "./Difficulty";
 import Buttons from "./Buttons";
 import PauseScreen from "./PauseScreen";
 import { reset, setIsPaused, setIsPlaying } from "../../redux/sudokuSlice";
+import GameComplete from "./GameComplete";
 
 const Grid = () => {
     const dispatch = useDispatch();
-    const { difficulty, isPaused } = useSelector((state) => state.sudoku);
+    const { difficulty, isPlaying, isPaused } = useSelector(
+        (state) => state.sudoku
+    );
 
     const [gridMatrix, setGridMatrix] = useState(
         Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
@@ -120,7 +123,7 @@ const Grid = () => {
                     border={generateRegionBorder(row, column)}
                     onClick={() => handleOnCellClick(row, column)}
                     onChange={(e) => handleValueChange(e, row, column)}
-                    disabled={gridMatrix[row][column]}
+                    disabled={gridMatrix[row][column] || !isPlaying}
                 />
             );
         }
@@ -150,6 +153,7 @@ const Grid = () => {
                 <Difficulty />
                 <Buttons generateGame={generateGame} resetGame={resetGame} />
             </div>
+            <GameComplete board={gridMatrix} />
         </div>
     );
 };
