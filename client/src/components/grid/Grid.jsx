@@ -11,15 +11,15 @@ const Grid = () => {
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
 
-    function generateRegionBorder(row, column) {
-        if (column % 3 === 2 && row % 3 === 2) {
-            return "border-r-slate-700 border-b-slate-700";
-        } else if (column % 3 === 2) {
-            return "border-r-slate-700";
-        } else if (row % 3 === 2) {
-            return "border-b-slate-700";
+    const generateGame = async () => {
+        setGridColors(gridColorsInitial);
+        try {
+            const { data } = await axios.post("/api/sudoku/generate-game");
+            setGridMatrix(data.partialBoard);
+        } catch (error) {
+            console.log(error.message);
         }
-    }
+    };
 
     function handleOnCellClick(row, column) {
         setGridColors(gridColorsInitial);
@@ -48,7 +48,6 @@ const Grid = () => {
                 row,
                 column,
             });
-
             return data.success;
         } catch (error) {
             console.log(error);
@@ -74,6 +73,16 @@ const Grid = () => {
         setGridColors(gridColorsCopy);
     }
 
+    function generateRegionBorder(row, column) {
+        if (column % 3 === 2 && row % 3 === 2) {
+            return "border-r-slate-700 border-b-slate-700";
+        } else if (column % 3 === 2) {
+            return "border-r-slate-700";
+        } else if (row % 3 === 2) {
+            return "border-b-slate-700";
+        }
+    }
+
     const gridDisplay = [];
 
     for (let row = 0; row < 9; row++) {
@@ -95,16 +104,6 @@ const Grid = () => {
 
         gridDisplay.push(displayRow);
     }
-
-    const generateGame = async () => {
-        setGridColors(gridColorsInitial);
-        try {
-            const { data } = await axios.post("/api/sudoku/generate-game");
-            setGridMatrix(data.partialBoard);
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
 
     return (
         <div className="flex flex-col items-center justify-center max-w-[80%] sm:flex-row mx-auto my-5 gap-3">
