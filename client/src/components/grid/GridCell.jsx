@@ -1,6 +1,20 @@
 const GridCell = (props) => {
     const cursor = props.disabled ? "" : "cursor-pointer";
 
+    function handleKeyDown(e) {
+        if (e.key === "e" || e.key === "E" || e.key === "0") {
+            e.preventDefault();
+        }
+    }
+
+    function handleOnPaste(e) {
+        const paste = e.clipboardData.getData("text");
+
+        if (paste.includes("e") || paste.includes("E") || paste.includes("0")) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <input
             type="number"
@@ -9,6 +23,8 @@ const GridCell = (props) => {
             onClick={props.onClick}
             onChange={props.onChange}
             disabled={props.disabled}
+            onKeyDown={(e) => handleKeyDown(e)}
+            onPaste={(e) => handleOnPaste(e)}
         />
     );
 };

@@ -89,7 +89,6 @@ const Grid = () => {
     }
 
     async function handleValueChange(e, row, column) {
-        console.log(e.target.value);
         if (e.target.value === "e") return;
 
         const inputValue = Number(e.target.value);
