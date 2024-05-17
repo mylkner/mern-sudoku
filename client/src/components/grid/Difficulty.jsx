@@ -5,7 +5,6 @@ const Button = (props) => {
     const { difficulty, isPlaying } = useSelector((state) => state.sudoku);
     const difficultyWithCapital =
         difficulty.slice(0, 1).toUpperCase() + difficulty.slice(1);
-
     const bgColor =
         difficultyWithCapital === props.text ? "bg-blue-500" : "bg-white";
 
