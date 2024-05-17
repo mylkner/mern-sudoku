@@ -64,14 +64,14 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-    const { emailOrUsername, password } = req.body;
+    const { usernameOrEmail, password } = req.body;
 
-    if (!emailOrUsername || !password)
+    if (!usernameOrEmail || !password)
         return next(errorHandler(400, "All fields are required"));
 
     try {
         const validUser = await User.findOne({
-            $or: [{ username: emailOrUsername }, { email: emailOrUsername }],
+            $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
         });
 
         if (!validUser) return next(errorHandler(404, "User not found"));
