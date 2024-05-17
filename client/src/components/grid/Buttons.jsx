@@ -6,6 +6,8 @@ const Buttons = (props) => {
     const dispatch = useDispatch();
     const { isPlaying, isPaused } = useSelector((state) => state.sudoku);
     const pauseButtonBgColor = isPaused ? "bg-blue-500" : "bg-white";
+    const className =
+        "disabled:opacity-60 w-full bg-white border border-black rounded-lg text-black p-3 font-bold";
 
     return (
         <>
@@ -18,15 +20,12 @@ const Buttons = (props) => {
             </button>
             <button
                 onClick={props.generateGame}
-                className="disabled:opacity-60 w-full bg-white border border-black rounded-lg text-black p-3 font-bold"
+                className={className}
                 disabled={isPlaying}
             >
                 New Game
             </button>
-            <button
-                onClick={props.resetGame}
-                className="disabled:opacity-60 w-full bg-white border border-black rounded-lg text-black p-3 font-bold"
-            >
+            <button onClick={props.resetGame} className={className}>
                 Reset
             </button>
         </>
