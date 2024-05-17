@@ -1,9 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRoute.js";
 import sudokoRouter from "./routes/sudokuRoute.js";
-import cookieParser from "cookie-parser";
+import userRouter from "./routes/userRoute.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/auth/", authRouter);
 app.use("/api/sudoku/", sudokoRouter);
+app.user("/api/user/", userRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
