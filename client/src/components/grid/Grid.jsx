@@ -55,7 +55,7 @@ const Grid = () => {
         }
     }
 
-    function handleOnCellClick(row, column) {
+    function handleOnCellFocus(row, column) {
         setGridColors(gridColorsInitial);
         const gridColorsCopy = gridColorsInitial.map((arr) => arr.slice(0));
 
@@ -137,7 +137,7 @@ const Grid = () => {
                     value={gridMatrix[row][column]}
                     bg={gridColors[row][column]}
                     border={generateRegionBorder(row, column)}
-                    onClick={() => handleOnCellClick(row, column)}
+                    onFocus={() => handleOnCellFocus(row, column)}
                     onChange={(e) => handleValueChange(e, row, column)}
                     disabled={gridMatrix[row][column] || !isPlaying}
                 />

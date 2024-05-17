@@ -20,7 +20,7 @@ const GridCell = (props) => {
             type="number"
             value={props.value}
             className={`${props.bg} border ${props.border} text-2xl text-center w-[11.1111111%] focus:outline-none caret-transparent ${cursor} h-[50px]`}
-            onClick={props.onClick}
+            onFocus={props.onFocus}
             onChange={props.onChange}
             disabled={props.disabled}
             onKeyDown={(e) => handleKeyDown(e)}

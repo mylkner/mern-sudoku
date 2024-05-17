@@ -29,7 +29,7 @@ const GameComplete = ({ board, onClick, mistakes }) => {
             <div className="fixed top-0 right-0 bottom-0 left-0 bg-black bg-opacity-70 w-full h-full flex items-center justify-center">
                 <div className="bg-white rounded-lg border border-black max-w-[80%] p-5 text-xl">
                     Good job! You have completed this sudoku board with{" "}
-                    {mistakes} mistakes.
+                    {mistakes} mistake(s).
                     <br />
                     <br />
                     Your time was:{" "}
