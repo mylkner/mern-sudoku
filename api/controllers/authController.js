@@ -1,7 +1,5 @@
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/errorHandler.js";
-import { verificationEmail } from "../utils/verificationEmail.js";
 import User from "../schemas/userSchema.js";
 
 export const signup = async (req, res, next) => {
@@ -40,8 +38,4 @@ export const signup = async (req, res, next) => {
                 "Password must be between 4 and 12 characters in length"
             )
         );
-
-    const token = jwt.sign({ email }, process.env.JWT);
-
-    verificationEmail(username, email, token);
 };
