@@ -184,7 +184,11 @@ const Grid = () => {
                     />
                 </div>
             </div>
-            <GameComplete board={gridMatrix} onClick={resetGame} />
+            <GameComplete
+                board={gridMatrix}
+                onClick={resetGame}
+                mistakes={mistakes}
+            />
             <GameOver onClick={resetGame} />
         </>
     );

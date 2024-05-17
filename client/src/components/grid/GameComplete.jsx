@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameComplete } from "../../redux/sudokuSlice";
 
-const GameComplete = ({ board, onClick }) => {
+const GameComplete = ({ board, onClick, mistakes }) => {
     const dispatch = useDispatch();
     const { gameComplete, time, difficulty } = useSelector(
         (state) => state.sudoku
@@ -28,7 +28,8 @@ const GameComplete = ({ board, onClick }) => {
         gameComplete && (
             <div className="fixed top-0 right-0 bottom-0 left-0 bg-black bg-opacity-70 w-full h-full flex items-center justify-center">
                 <div className="bg-white rounded-lg border border-black max-w-[80%] p-5 text-xl">
-                    Good job! You have completed this sudoku board.
+                    Good job! You have completed this sudoku board with{" "}
+                    {mistakes} mistakes.
                     <br />
                     <br />
                     Your time was:{" "}
