@@ -31,7 +31,8 @@ const GameComplete = ({ board, onClick }) => {
                     Good job! You have completed this sudoku board.
                     <br />
                     <br />
-                    Your time was: {mins + "mins and " + seconds + "seconds"}
+                    Your time was:{" "}
+                    {mins + " minutes and " + seconds + " seconds"}
                     <br />
                     <br />
                     Your difficulty was:{" "}
