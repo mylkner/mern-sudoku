@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
     return (
@@ -26,6 +27,8 @@ const App = () => {
                 <Route element={<PrivateProfileRoute />}>
                     <Route path="/profile" element={<Profile />} />
                 </Route>
+
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );
