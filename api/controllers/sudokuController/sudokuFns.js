@@ -46,8 +46,8 @@ export function solve(board) {
 export function removeCells(board, difficulty) {
     const difficultyLevel = {
         easy: 0.5,
-        medium: 0.65,
-        hard: 0.8,
+        medium: 0.6,
+        hard: 0.7,
     };
 
     const partialBoard = board.map((arr) => arr.slice(0));
