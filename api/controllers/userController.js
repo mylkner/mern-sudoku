@@ -35,6 +35,7 @@ export const postGameData = async (req, res, next) => {
 export const getGame = async (req, res, next) => {
     try {
         const gameData = await Game.findById(req.params.id);
+
         if (req.user.id !== gameData.userRef.toString())
             return next(errorHandler(401, "User authentication failed"));
 
