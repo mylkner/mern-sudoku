@@ -18,11 +18,6 @@ const App = () => {
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/:user/history" element={<History />} />
-                <Route
-                    path="/:user/history/game/:id"
-                    element={<ShowCompletedGame />}
-                />
 
                 <Route element={<PrivateSignInUpRoute />}>
                     <Route path="/sign-in" element={<SignIn />} />
@@ -30,6 +25,11 @@ const App = () => {
                 </Route>
 
                 <Route element={<PrivateProfileRoute />}>
+                    <Route path="/:user/history" element={<History />} />
+                    <Route
+                        path="/:user/history/game/:id"
+                        element={<ShowCompletedGame />}
+                    />
                     <Route path="/profile" element={<Profile />} />
                 </Route>
 

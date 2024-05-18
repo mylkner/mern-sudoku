@@ -9,10 +9,13 @@ const Header = () => {
             <div className="max-w-[85%] flex items-center justify-between mx-auto text-white p-4 text-xl">
                 <Link to={"/"}>Play Sudoku</Link>
                 <div className="flex gap-3">
-                    <Link to={`/${currentUser.username}/history`}>History</Link>
-
                     {currentUser ? (
-                        <Link to={"/profile"}>Profile</Link>
+                        <>
+                            <Link to={`/${currentUser.username}/history`}>
+                                History
+                            </Link>
+                            <Link to={"/profile"}>Profile</Link>
+                        </>
                     ) : (
                         <Link to={"/sign-in"}>Sign-In</Link>
                     )}
