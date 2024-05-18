@@ -17,10 +17,7 @@ const userGameData = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    gridMatrix: {
-        type: [[Number]],
-        required: true,
-    },
+    gridMatrix: [{ type: [Number], required: true }],
     userRef: {
         type: Schema.Types.ObjectId,
         required: true,
