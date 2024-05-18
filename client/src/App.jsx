@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import History from "./pages/History";
+import ShowCompletedGame from "./pages/ShowCompletedGame";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
@@ -18,6 +19,10 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/:user/history" element={<History />} />
+                <Route
+                    path="/:user/history/game/:id"
+                    element={<ShowCompletedGame />}
+                />
 
                 <Route element={<PrivateSignInUpRoute />}>
                     <Route path="/sign-in" element={<SignIn />} />
