@@ -14,7 +14,8 @@ export const getGameData = async (req, res, next) => {
 };
 
 export const postGameData = async (req, res, next) => {
-    const { timeTaken, difficulty, mistakesMade, userRef } = req.body;
+    const { timeTaken, difficulty, mistakesMade, gridMatrix, userRef } =
+        req.body;
 
     if (req.user.id !== userRef)
         return next(errorHandler(401, "User authentication failed"));
@@ -24,6 +25,7 @@ export const postGameData = async (req, res, next) => {
             timeTaken,
             difficulty,
             mistakesMade,
+            gridMatrix,
             userRef,
         });
         res.status(201).json({ success: true, gameData });
