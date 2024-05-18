@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameComplete } from "../../redux/sudokuSlice";
+import axios from "axios";
 
 const GameComplete = ({ board, onClick, mistakes }) => {
     const dispatch = useDispatch();
     const { gameComplete, time, difficulty } = useSelector(
         (state) => state.sudoku
     );
+    const { currentUser } = useSelector((state) => state.user);
+    const [loading, setLoading] = useState(false);
 
     const mins = Math.floor(time / 60);
     const seconds = time % 60;
@@ -15,17 +18,37 @@ const GameComplete = ({ board, onClick, mistakes }) => {
         checkCompletion(board);
     }, [board]);
 
-    function checkCompletion(board) {
+    async function checkCompletion(board) {
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
                 if (!board[row][col]) return false;
             }
         }
+
+        if (currentUser) await saveGameData();
+
         dispatch(setGameComplete());
     }
 
+    const saveGameData = async () => {
+        setLoading(true);
+        try {
+            await axios.post("/api/user/game-data", {
+                timeTaken: time,
+                difficulty,
+                mistakesMade: mistakes,
+                userRef: currentUser._id,
+            });
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+
     return (
-        gameComplete && (
+        gameComplete &&
+        !loading && (
             <div className="fixed top-0 right-0 bottom-0 left-0 bg-black bg-opacity-70 w-full h-full flex items-center justify-center">
                 <div className="bg-white rounded-lg border border-black max-w-[80%] p-5 text-xl">
                     Good job! You have completed this sudoku board with{" "}
