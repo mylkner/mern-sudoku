@@ -58,7 +58,7 @@ const ShowCompletedGame = () => {
     return loading ? (
         <FullScreenSpinner />
     ) : (
-        <div className="flex items-center justify-center h-screen w-full">
+        <div className="flex items-center justify-center h-screen w-[80%] mx-auto">
             <div className="flex flex-wrap border border-black w-full md:max-w-[450px] md:min-w-[400px] pointer-events-none">
                 {gridDisplay}
             </div>
