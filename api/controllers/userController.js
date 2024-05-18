@@ -31,3 +31,18 @@ export const postGameData = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getGame = async (req, res, next) => {
+    try {
+        const gameData = await Game.findById(req.params.id);
+        if (req.user.id !== gameData.userRef.toString())
+            return next(errorHandler(401, "User authentication failed"));
+
+        res.status(200).json({
+            success: true,
+            gridMatrix: gameData.gridMatrix,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
