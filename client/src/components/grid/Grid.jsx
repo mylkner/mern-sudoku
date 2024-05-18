@@ -39,7 +39,7 @@ const Grid = () => {
             setGridMatrix(data.partialBoard);
             dispatch(setIsPlaying());
         } catch (error) {
-            console.log(error.message);
+            console.log(error.response.data.message);
         }
     }
 
@@ -51,7 +51,7 @@ const Grid = () => {
             setMistakes(0);
             dispatch(reset());
         } catch (error) {
-            console.log(error.message);
+            console.log(error.response.data.message);
         }
     }
 
@@ -84,7 +84,7 @@ const Grid = () => {
             });
             return data.success;
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data.message);
         }
     }
 

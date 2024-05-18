@@ -18,7 +18,7 @@ const History = () => {
                 setUserGameData(data.gameData);
                 setLoading(false);
             } catch (error) {
-                console.log(error);
+                console.log(error.response.data.message);
                 setLoading(false);
             }
         };

@@ -43,7 +43,7 @@ const GameComplete = ({ board, onClick, mistakes }) => {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            console.log(error);
+            console.log(error.response.data.message);
         }
     };
 

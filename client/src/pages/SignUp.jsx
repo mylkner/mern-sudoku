@@ -39,8 +39,6 @@ const SignUp = () => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    console.log(formData);
-
     return (
         <Container onSubmit={onSubmit}>
             <h1 className="text-center text-4xl ">Sign Up</h1>
