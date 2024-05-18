@@ -41,5 +41,3 @@ export const resetGame = (req, res, next) => {
         next(error);
     }
 };
-
-export const checkIfComplete = (req, res, next) => {};
