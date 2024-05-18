@@ -28,7 +28,7 @@ const GameData = ({ gameData }) => {
                     `/${currentUser.username}/history/game/${gameData._id}`
                 )
             }
-            className="flex w-full flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg transition-scale duration-50 hover:scale-[1.01]"
+            className="flex w-[80%] flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg transition-scale duration-50 hover:scale-[1.01]"
         >
             <p className="text-xl">
                 <span className="font-semibold">Completed At:</span> {date}
