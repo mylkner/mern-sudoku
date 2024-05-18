@@ -15,7 +15,7 @@ const GameData = ({ index, gameData }) => {
     return (
         <Link
             to={`game/${gameData._id}`}
-            className="flex w-full flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg"
+            className="flex w-full flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg transition-scale duration-50 hover:scale-[1.01]"
         >
             <h1 className="font-semibold text-xl">#{index + 1}</h1>
             <p className="text-xl">
