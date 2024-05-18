@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const GameData = ({ index, gameData }) => {
+const GameData = ({ gameData }) => {
+    const { currentUser } = useSelector((state) => state.user);
     const date = new Date(gameData.completedAt).toUTCString();
 
     const formatTimeTaken = (time) => {
@@ -12,12 +14,22 @@ const GameData = ({ index, gameData }) => {
         return `${mins} minute(s) and ${secondsFormatted} second(s)`;
     };
 
+    const handleLinkClick = (e, path) => {
+        e.preventDefault();
+        window.open(path, "_blank", "noopener,noreferrer");
+    };
+
     return (
         <Link
-            to={`game/${gameData._id}`}
+            to={`/${currentUser.username}/history/game/${gameData._id}`}
+            onClick={(e) =>
+                handleLinkClick(
+                    e,
+                    `/${currentUser.username}/history/game/${gameData._id}`
+                )
+            }
             className="flex w-full flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg transition-scale duration-50 hover:scale-[1.01]"
         >
-            <h1 className="font-semibold text-xl">#{index + 1}</h1>
             <p className="text-xl">
                 <span className="font-semibold">Completed At:</span> {date}
             </p>
