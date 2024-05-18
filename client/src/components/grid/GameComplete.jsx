@@ -33,6 +33,7 @@ const GameComplete = ({ board, onClick, mistakes }) => {
 
     const saveGameData = async () => {
         setLoading(true);
+
         try {
             await axios.post("/api/user/game-data", {
                 timeTaken: time,
