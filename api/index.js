@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/auth/", authRouter);
 app.use("/api/sudoku/", sudokoRouter);
-app.user("/api/user/", userRouter);
+app.use("/api/user/", userRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
