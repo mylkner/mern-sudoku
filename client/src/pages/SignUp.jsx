@@ -41,6 +41,9 @@ const SignUp = () => {
     return (
         <Container onSubmit={onSubmit}>
             <h1 className="text-center text-4xl ">Sign Up</h1>
+            <p className="text-center text-xl">
+                Sign up to keep track of your game history
+            </p>
             <Input
                 id="username"
                 text={"Username"}
