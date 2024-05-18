@@ -38,6 +38,7 @@ const GameComplete = ({ board, onClick, mistakes }) => {
                 timeTaken: time,
                 difficulty,
                 mistakesMade: mistakes,
+                gridMatrix: board,
                 userRef: currentUser._id,
             });
             setLoading(false);
