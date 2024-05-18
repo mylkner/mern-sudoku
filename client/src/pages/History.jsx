@@ -57,7 +57,7 @@ const History = () => {
 
     return (
         <div className="flex flex-col items-center justify-center gap-3 w-full p-3 mx-auto">
-            <h1 className="text-white text-4xl mb-3">{`${currentUser.username}'s Game History`}</h1>
+            <h1 className="text-white text-4xl my-3">{`${currentUser.username}'s Game History`}</h1>
             {loading ? (
                 <FullScreenSpinner />
             ) : !userGameData || userGameData.length < 1 ? (
