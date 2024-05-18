@@ -76,13 +76,13 @@ const History = () => {
                 <Spinner />
             ) : showMore ? (
                 <p
-                    className="text-white hover:underline text-xl cursor-pointer"
+                    className="text-white hover:underline text-xl cursor-pointer mb-3"
                     onClick={getMore}
                 >
                     Show more
                 </p>
             ) : (
-                <p className="text-white text-xl cursor-pointer">
+                <p className="text-white text-xl cursor-pointer mb-3">
                     {"You've reached the end!"}
                 </p>
             )}
