@@ -32,7 +32,9 @@ const History = () => {
         <div className="flex flex-col items-center justify-center gap-3 w-full p-3 mx-auto">
             <h1 className="text-white text-4xl mb-3">{`${currentUser.username}'s Game History`}</h1>
             {userGameData.length === 0 && (
-                <p className="text-white text-xl">You have no games played</p>
+                <p className="text-white text-xl">
+                    You have no games completed
+                </p>
             )}
             {userGameData.length > 0 && (
                 <div className="flex flex-col-reverse w-full items-center justify-center gap-3 p-3">

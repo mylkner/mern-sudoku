@@ -55,7 +55,8 @@ const GameComplete = ({ board, onClick, mistakes }) => {
                 mistake(s).
                 <br />
                 <br />
-                Your time was: {mins + " minutes and " + seconds + " seconds"}
+                Your time was:{" "}
+                {mins + " minute(s) and " + seconds + " second(s)"}
                 <br />
                 <br />
                 Your difficulty was:{" "}

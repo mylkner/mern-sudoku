@@ -9,7 +9,7 @@ const GameData = ({ index, gameData }) => {
         const seconds = time % 60;
         const secondsFormatted = seconds < 10 ? "0" + seconds : seconds;
 
-        return `${mins} minutes and ${secondsFormatted} seconds`;
+        return `${mins} minute(s) and ${secondsFormatted} second(s)`;
     };
 
     return (
