@@ -6,7 +6,16 @@ export const getGameData = async (req, res, next) => {
         return next(errorHandler(401, "User authentication failed"));
 
     try {
-        const gameData = await Game.find({ userRef: req.params.id });
+        const limit = req.query.limit || 9;
+        const startIndex = req.query.startIndex || 0;
+
+        const gameData = await Game.find({ userRef: req.params.id })
+            .sort({
+                completedAt: -1,
+            })
+            .limit(limit)
+            .skip(startIndex);
+
         res.status(200).json({ success: true, gameData });
     } catch (error) {
         next(error);
