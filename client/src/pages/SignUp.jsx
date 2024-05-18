@@ -29,7 +29,6 @@ const SignUp = () => {
             setError(null);
             setFormData(initialFormData);
         } catch (error) {
-            console.log(error.response.data.message);
             setError(error.response.data.message);
             setLoading(false);
         }
