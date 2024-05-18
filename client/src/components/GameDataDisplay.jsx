@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const GameData = ({ gameData }) => {
+const GameDataDisplay = ({ gameData }) => {
     const { currentUser } = useSelector((state) => state.user);
     const date = new Date(gameData.completedAt).toUTCString();
 
@@ -49,4 +49,4 @@ const GameData = ({ gameData }) => {
         </Link>
     );
 };
-export default GameData;
+export default GameDataDisplay;

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 import Spinner from "../components/Spinner";
-import GameData from "../components/GameData";
+import GameDataDisplay from "../components/GameDataDisplay";
 
 const History = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -67,7 +67,7 @@ const History = () => {
             ) : (
                 <div className="flex flex-col w-full items-center justify-center gap-3 p-3">
                     {userGameData.map((data) => (
-                        <GameData key={data._id} gameData={data} />
+                        <GameDataDisplay key={data._id} gameData={data} />
                     ))}
                 </div>
             )}
