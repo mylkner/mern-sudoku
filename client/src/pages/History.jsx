@@ -73,10 +73,6 @@ const History = () => {
             <h1 className="text-white text-4xl my-3">{`${currentUser.username}'s Game History`}</h1>
             {loading ? (
                 <FullScreenSpinner />
-            ) : !userGameData || userGameData.length < 1 ? (
-                <p className="text-white text-xl">
-                    You have no games completed
-                </p>
             ) : (
                 <>
                     <Filter onSubmit={onSubmit} disabled={loading} />
@@ -87,6 +83,11 @@ const History = () => {
                     </div>
                 </>
             )}
+
+            {!userGameData ||
+                (userGameData.length < 1 && (
+                    <p className="text-white text-xl">No results</p>
+                ))}
 
             {userGameData && showMoreLoading ? (
                 <Spinner />
