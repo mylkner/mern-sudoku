@@ -3,7 +3,7 @@ import { errorHandler } from "../utils/errorHandler.js";
 
 export const getUserGameData = async (req, res, next) => {
     if (req.user.id !== req.params.id)
-        return next(errorHandler(401, "User authentication failed"));
+        throw errorHandler(401, "User authentication failed");
 
     try {
         const games = await Game.find({ userRef: req.params.id }).sort({
@@ -105,7 +105,7 @@ export const getUserGameData = async (req, res, next) => {
 
 export const getGameHistory = async (req, res, next) => {
     if (req.user.id !== req.params.id)
-        return next(errorHandler(401, "User authentication failed"));
+        throw errorHandler(401, "User authentication failed");
 
     try {
         const limit = req.query.limit || 9;
@@ -155,7 +155,7 @@ export const postGameData = async (req, res, next) => {
         req.body;
 
     if (req.user.id !== userRef)
-        return next(errorHandler(401, "User authentication failed"));
+        throw errorHandler(401, "User authentication failed");
 
     try {
         const gameData = await Game.create({
@@ -176,7 +176,7 @@ export const getGame = async (req, res, next) => {
         const gameData = await Game.findById(req.params.id);
 
         if (req.user.id !== gameData.userRef.toString())
-            return next(errorHandler(401, "User authentication failed"));
+            throw errorHandler(401, "User authentication failed");
 
         res.status(200).json({
             success: true,
