@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import GridCell from "./GridCell";
@@ -29,6 +29,10 @@ const Grid = () => {
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
     const [mistakes, setMistakes] = useState(0);
+
+    useEffect(() => {
+        return () => dispatch(reset());
+    }, []);
 
     async function generateGame() {
         setGridColors(gridColorsInitial);
