@@ -1,7 +1,107 @@
 import Game from "../schemas/userGameData.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
-export const getUserData = (req, res, next) => {};
+export const getUserGameData = async (req, res, next) => {
+    if (req.user.id !== req.params.id)
+        return next(errorHandler(401, "User authentication failed"));
+
+    try {
+        const games = await Game.find({ userRef: req.params.id }).sort({
+            completedAt: 1,
+        });
+        const times = await Game.aggregate([
+            {
+                $group: {
+                    _id: "$difficulty",
+                    shortestTime: { $min: "$timeTaken" },
+                    longestTime: { $max: "$timeTaken" },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ]);
+
+        const easyGames = {
+            played: 0,
+            mistakes: 0,
+            shortestTime: null,
+            longestTime: null,
+        };
+        const mediumGames = {
+            played: 0,
+            mistakes: 0,
+            shortestTime: null,
+            longestTime: null,
+        };
+        const hardGames = {
+            played: 0,
+            mistakes: 0,
+            shortestTime: null,
+            longestTime: null,
+        };
+
+        for (let i = 0; i < times.length; i++) {
+            const id = times[i]._id;
+            const short = times[i].shortestTime;
+            const long = times[i].longestTime;
+
+            if (id === "easy") {
+                easyGames.shortestTime = short;
+                easyGames.longestTime = long;
+            }
+            if (id === "medium") {
+                mediumGames.shortestTime = short;
+                mediumGames.longestTime = long;
+            }
+            if (id === "hard") {
+                hardGames.shortestTime = short;
+                hardGames.longestTime = long;
+            }
+        }
+
+        let totalTime = 0;
+
+        for (let i = 0; i < games.length; i++) {
+            const difficulty = games[i].difficulty;
+            const mistakes = games[i].mistakesMade;
+
+            if (difficulty === "easy") {
+                easyGames.played += 1;
+                easyGames.mistakes += mistakes;
+            }
+            if (difficulty === "medium") {
+                mediumGames.played += 1;
+                mediumGames.mistakes += mistakes;
+            }
+            if (difficulty === "hard") {
+                hardGames.played += 1;
+                hardGames.mistakes += mistakes;
+            }
+
+            totalTime += games[i].timeTaken;
+        }
+
+        const totalMistakes =
+            easyGames.mistakes + mediumGames.mistakes + hardGames.mistakes;
+
+        const stats = {
+            firstGame: games[0]?.completedAt || null,
+            gamesPlayed: games?.length || 0,
+            totalTime,
+            totalMistakes,
+            easyGames,
+            mediumGames,
+            hardGames,
+        };
+
+        res.status(200).json({ success: true, stats });
+    } catch (error) {
+        next(error);
+    }
+};
 
 export const getGameHistory = async (req, res, next) => {
     if (req.user.id !== req.params.id)
