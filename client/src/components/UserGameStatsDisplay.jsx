@@ -75,7 +75,7 @@ const UserGameStats = () => {
     return loading ? (
         <FullScreenSpinner />
     ) : (
-        <div className="flex flex-col gap-2 p-3 w-4/5 bg-white rounded-lg mx-auto justify-center">
+        <div className="flex flex-col gap-2 md:w-1/2 p-3">
             <p>
                 <span className={headerStyle}>Username:</span>{" "}
                 {currentUser.username}
