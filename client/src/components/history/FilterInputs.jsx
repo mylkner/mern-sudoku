@@ -48,7 +48,6 @@ const DateInput = () => {
             <span className="flex gap-1 text-white text-lg justify-center items-center">
                 Sort by:
                 <select
-                    defaultValue={"completedAt"}
                     value={sort}
                     onChange={(e) => dispatch(setSort(e.target.value))}
                     className="p-3 border border-black rounded-lg text-black"
