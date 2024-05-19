@@ -1,15 +1,7 @@
 import { errorHandler } from "./errorHandler.js";
-import User from "../schemas/userSchema.js";
 
-export const validateInputs = async (req, res) => {
+export const validateInputs = async (req, res, doesUserExist) => {
     const { username, email, password } = req.body;
-
-    if (!username || !email || !password)
-        throw errorHandler(400, "All fields are required");
-
-    const doesUserExist = await User.findOne({
-        $or: [{ username }, { email }],
-    });
 
     if (doesUserExist && doesUserExist._doc.username === username)
         throw errorHandler(409, "Username already exists");
