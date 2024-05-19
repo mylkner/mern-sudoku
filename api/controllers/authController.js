@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/errorHandler.js";
 import { validateInputs } from "../utils/validateInputs.js";
 import User from "../schemas/userSchema.js";
+import Game from "../schemas/userGameData.js";
 
 export const signup = async (req, res, next) => {
     try {
@@ -133,10 +134,12 @@ export const deleteUser = async (req, res, next) => {
 
         if (!toDelete) throw errorHandler(404, "User not found");
 
+        await Game.deleteMany({ userRef: req.params.id });
+
         res.clearCookie("accessToken");
         res.status(200).json({
             success: true,
-            message: "User has been logged out",
+            message: "User has been deleted",
         });
     } catch (error) {
         next(error);
