@@ -72,8 +72,6 @@ const UserGameStats = () => {
         );
     };
 
-    console.log(userGameStats);
-
     return loading ? (
         <FullScreenSpinner />
     ) : (
