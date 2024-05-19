@@ -21,9 +21,13 @@ export const validateInputs = async (req, res, doesUserExist) => {
             "Username may not contain any special characters"
         );
 
-    if (password.length < 4 || password.length > 20)
+    if (
+        (password && password.length < 4) ||
+        (password && password.length > 20) ||
+        (password && password.includes(" "))
+    )
         throw errorHandler(
             409,
-            "Password must be between 4 and 20 characters in length"
+            "Password must be between 4 and 20 characters in length and cannot contain spaces"
         );
 };

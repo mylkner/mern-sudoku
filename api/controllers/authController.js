@@ -6,7 +6,16 @@ import User from "../schemas/userSchema.js";
 
 export const signup = async (req, res, next) => {
     try {
-        await validateInputs(req, res, next);
+        const { username, email, password } = req.body;
+
+        if (!username || !email || !password)
+            throw errorHandler(400, "All fields are required");
+
+        const doesUserExist = await User.findOne({
+            $or: [{ username }, { email }],
+        });
+
+        await validateInputs(req, res, doesUserExist);
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
 
@@ -59,4 +68,43 @@ export const signin = async (req, res, next) => {
     }
 };
 
-export const update = async (req, res, next) => {};
+export const update = async (req, res, next) => {
+    try {
+        if (req.user.id !== req.params.id)
+            throw errorHandler(401, "User authentication failed");
+
+        const { username, email, password } = req.body;
+
+        const doesUserExist = await User.findOne({
+            $or: [{ username }, { email }],
+            _id: { $ne: req.params.id },
+        });
+
+        await validateInputs(req, res, doesUserExist);
+
+        const updateFields = {
+            username,
+            email,
+        };
+
+        if (password) {
+            updateFields.password = bcryptjs.hashSync(password, 10);
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: updateFields,
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) throw errorHandler(404, "User not found");
+
+        const { password: pass, ...rest } = updatedUser._doc;
+
+        res.status(200).json({ success: true, user: rest });
+    } catch (error) {
+        next(error);
+    }
+};
