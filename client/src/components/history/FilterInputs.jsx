@@ -13,7 +13,7 @@ const DateInput = () => {
     const { from, to, timeTaken, sort, order } = useSelector(
         (state) => state.filter
     );
-    console.log(sort, order);
+
     return (
         <div className="flex gap-2 flex-wrap">
             <span className="flex gap-2 justify-center items-center">
