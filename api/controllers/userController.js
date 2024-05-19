@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Game from "../schemas/userGameData.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -9,7 +10,13 @@ export const getUserGameData = async (req, res, next) => {
         const games = await Game.find({ userRef: req.params.id }).sort({
             completedAt: 1,
         });
+
         const times = await Game.aggregate([
+            {
+                $match: {
+                    userRef: new mongoose.Types.ObjectId(req.params.id),
+                },
+            },
             {
                 $group: {
                     _id: "$difficulty",
