@@ -31,7 +31,6 @@ const History = () => {
             setUserGameData(data.gameData);
             setLoading(false);
             setCurrentFilters(filterData);
-            console.log(currentFilters);
 
             if (data.gameData.length > 8) {
                 setShowMore(true);
