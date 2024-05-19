@@ -6,12 +6,11 @@ const GameDataDisplay = ({ gameData }) => {
     const date = new Date(gameData.completedAt).toLocaleDateString();
 
     const formatTimeTaken = (time) => {
-        const mins =
-            time < 600 ? "0" + Math.floor(time / 60) : Math.floor(time / 60);
+        const hrs = Math.floor(time / 3600);
+        const mins = Math.floor(time / 60) % 60;
         const seconds = time % 60;
-        const secondsFormatted = seconds < 10 ? "0" + seconds : seconds;
 
-        return `${mins} minute(s) and ${secondsFormatted} second(s)`;
+        return `${hrs} hour(s), ${mins} minute(s) and ${seconds} second(s)`;
     };
 
     const handleLinkClick = (e, path) => {
