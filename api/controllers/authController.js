@@ -108,3 +108,37 @@ export const update = async (req, res, next) => {
         next(error);
     }
 };
+
+export const signout = (req, res, next) => {
+    try {
+        if (req.params.id !== req.user.id)
+            throw errorHandler(401, "User authentication failed");
+
+        res.clearCookie("accessToken");
+        res.status(200).json({
+            success: true,
+            message: "User has been logged out",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        if (req.params.id !== req.user.id)
+            throw errorHandler(401, "User authentication failed");
+
+        const toDelete = await User.findByIdAndDelete(req.params.id);
+
+        if (!toDelete) throw errorHandler(404, "User not found");
+
+        res.clearCookie("accessToken");
+        res.status(200).json({
+            success: true,
+            message: "User has been logged out",
+        });
+    } catch (error) {
+        next(error);
+    }
+};

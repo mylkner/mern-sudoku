@@ -5,7 +5,10 @@ import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
 import UserGameStats from "../components/UserGameStatsDisplay";
-import { signInOrUpdateUserSuccess } from "../redux/userSlice";
+import {
+    signInOrUpdateUserSuccess,
+    deleteOrSignOutUser,
+} from "../redux/userSlice";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -43,6 +46,34 @@ const Profile = () => {
         }
     };
 
+    const signOut = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            await axios.get("/api/auth/sign-out/" + currentUser._id);
+            dispatch(deleteOrSignOutUser());
+            setLoading(false);
+        } catch (error) {
+            console.log(error.response.data.message);
+            setLoading(false);
+        }
+    };
+
+    const deleteUser = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            await axios.delete("/api/auth/delete/" + currentUser._id);
+            dispatch(deleteOrSignOutUser());
+            setLoading(false);
+        } catch (error) {
+            console.log(error.response.data.message);
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-11 min-h-screen my-5 w-full items-center justify-center">
             <h1 className="text-white text-4xl">
@@ -61,7 +92,7 @@ const Profile = () => {
                         type={"text"}
                         handleChange={handleChange}
                         error={error}
-                        errorType={"User"}
+                        errorType={"Username"}
                     />
                     <Input
                         id="email"
@@ -84,6 +115,25 @@ const Profile = () => {
                         text={"Update"}
                         error={error}
                     />
+                    <div className="flex justify-between items-center">
+                        <button
+                            type="button"
+                            onClick={signOut}
+                            className="text-red-600 hover:underline"
+                            disabled={loading}
+                        >
+                            Sign-out
+                        </button>
+                        <button
+                            type="button"
+                            onClick={deleteUser}
+                            className="text-red-600 hover:underline"
+                            disabled={loading}
+                        >
+                            Delete Account
+                        </button>
+                    </div>
+
                     {success && (
                         <p className="text-green-600 text-lg font-semibold">
                             User updated Successfully!
