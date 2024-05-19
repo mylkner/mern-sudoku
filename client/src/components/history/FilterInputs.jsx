@@ -61,12 +61,12 @@ const DateInput = () => {
                 {order === 1 ? (
                     <GrAscend
                         onClick={() => dispatch(setOrder(-1))}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:border border-black"
                     />
                 ) : (
                     <GrDescend
                         onClick={() => dispatch(setOrder(1))}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:border border-black"
                     />
                 )}
             </span>
