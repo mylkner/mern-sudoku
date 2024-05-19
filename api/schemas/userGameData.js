@@ -1,5 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 
+const getDate = () => {
+    const today = new Date();
+    const midnight = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
+    const offset = midnight.getTimezoneOffset() * 60000;
+    return new Date(midnight.getTime() - offset);
+};
+
 const userGameData = new mongoose.Schema({
     timeTaken: {
         type: Number,
@@ -15,7 +26,7 @@ const userGameData = new mongoose.Schema({
     },
     completedAt: {
         type: Date,
-        default: Date.now,
+        default: getDate,
     },
     gridMatrix: [{ type: [Number], required: true }],
     userRef: {

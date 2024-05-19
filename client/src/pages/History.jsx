@@ -1,49 +1,57 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 import Spinner from "../components/Spinner";
-import GameDataDisplay from "../components/GameDataDisplay";
+import GameDataDisplay from "../components/history/GameDataDisplay";
+import Filter from "../components/history/Filter";
+import { resetFilters } from "../redux/filterSlice";
 
 const History = () => {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
+    const filterData = useSelector((state) => state.filter);
+
     const [userGameData, setUserGameData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showMoreLoading, setShowMoreLoading] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     useEffect(() => {
-        const fetchGameData = async () => {
-            try {
-                const { data } = await axios.get(
-                    "/api/user/" + currentUser._id + "?limit=9"
-                );
-                setUserGameData(data.gameData);
-                setLoading(false);
-
-                if (data.gameData.length > 8) {
-                    setShowMore(true);
-                } else {
-                    setShowMore(false);
-                }
-            } catch (error) {
-                console.log(error.response.data.message);
-                setLoading(false);
-            }
-        };
-
         fetchGameData();
-    }, [currentUser._id]);
+    }, []);
+
+    const fetchGameData = async () => {
+        setLoading(true);
+        try {
+            const { data } = await axios.post(
+                "/api/user/history/" + currentUser._id + "?limit=9",
+                filterData
+            );
+
+            setUserGameData(data.gameData);
+            setLoading(false);
+
+            if (data.gameData.length > 8) {
+                setShowMore(true);
+            } else {
+                setShowMore(false);
+            }
+        } catch (error) {
+            console.log(error.response.data.message);
+            setLoading(false);
+        }
+    };
 
     const getMore = async () => {
         setShowMoreLoading(true);
-
         try {
-            const { data } = await axios.get(
-                "/api/user/" +
+            const { data } = await axios.post(
+                "/api/user/history/" +
                     currentUser._id +
                     "?limit=9&startIndex=" +
-                    userGameData.length
+                    userGameData.length,
+                filterData
             );
 
             setUserGameData([...userGameData, ...data.gameData]);
@@ -55,8 +63,19 @@ const History = () => {
         }
     };
 
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        await fetchGameData();
+    };
+
+    const resetFilter = async () => {
+        dispatch(resetFilters());
+        console.log(filterData);
+        await fetchGameData();
+    };
+
     return (
-        <div className="flex flex-col items-center justify-center gap-3 w-full p-3 mx-auto">
+        <div className="flex flex-col items-center justify-center w-full p-3 mx-auto">
             <h1 className="text-white text-4xl my-3">{`${currentUser.username}'s Game History`}</h1>
             {loading ? (
                 <FullScreenSpinner />
@@ -65,14 +84,21 @@ const History = () => {
                     You have no games completed
                 </p>
             ) : (
-                <div className="flex flex-col w-full items-center justify-center gap-3 p-3">
-                    {userGameData.map((data) => (
-                        <GameDataDisplay key={data._id} gameData={data} />
-                    ))}
-                </div>
+                <>
+                    <Filter
+                        onSubmit={onSubmit}
+                        onReset={resetFilter}
+                        disabled={loading}
+                    />
+                    <div className="flex flex-col w-full items-center justify-center gap-3 p-3">
+                        {userGameData.map((data) => (
+                            <GameDataDisplay key={data._id} gameData={data} />
+                        ))}
+                    </div>
+                </>
             )}
 
-            {showMoreLoading ? (
+            {userGameData && showMoreLoading ? (
                 <Spinner />
             ) : showMore ? (
                 <p
@@ -82,9 +108,11 @@ const History = () => {
                     Show more
                 </p>
             ) : (
-                <p className="text-white text-xl cursor-pointer mb-3">
-                    {"You've reached the end!"}
-                </p>
+                userGameData.length > 0 && (
+                    <p className="text-white text-xl cursor-pointer mb-3">
+                        {"You've reached the end!"}
+                    </p>
+                )
             )}
         </div>
     );

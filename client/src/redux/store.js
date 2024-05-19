@@ -12,6 +12,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import userReducer from "./userSlice";
 import sudokuReducer from "./sudokuSlice";
+import filterReducer from "./filterSlice";
 
 const persistConfig = {
     key: "root",
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     sudoku: sudokuReducer,
+    filter: filterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
