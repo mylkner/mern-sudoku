@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaArrowDown } from "react-icons/fa";
 
-const Dropdown = (props) => {
+const FilterDropdown = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const title =
         props.state.length > 0 ? props.state.join(", ") : props.section;
@@ -10,7 +10,7 @@ const Dropdown = (props) => {
         <div className="mt-2">
             <span
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-lg flex p-3 items-center justify-between text-black bg-white gap-4 rounded-lg border border-black shadow-lg cursor-pointer"
+                className="text-lg flex p-3 items-center justify-between text-black bg-white gap-4 rounded-lg border border-black cursor-pointer"
             >
                 <span className="flex gap-1">{title}</span>
                 <FaArrowDown
@@ -23,7 +23,7 @@ const Dropdown = (props) => {
                     isOpen && "is-open border border-black"
                 }  bg-white rounded-lg mt-2`}
             >
-                <div className="overflow-hidden ml-2 shadow-lg">
+                <div className="overflow-hidden ml-2">
                     {props.options.map((option) => (
                         <span
                             key={option}
@@ -47,4 +47,4 @@ const Dropdown = (props) => {
     );
 };
 
-export default Dropdown;
+export default FilterDropdown;

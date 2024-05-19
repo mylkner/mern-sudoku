@@ -8,7 +8,7 @@ import {
     setOrder,
 } from "../../redux/filterSlice";
 
-const DateInput = () => {
+const FilterInputs = () => {
     const dispatch = useDispatch();
     const { from, to, timeTaken, sort, order } = useSelector(
         (state) => state.filter
@@ -45,7 +45,7 @@ const DateInput = () => {
                     onChange={(e) => dispatch(setTimeTaken(e.target.value))}
                 />
             </span>
-            <span className="flex gap-1 text-white text-lg justify-center items-center">
+            <span className="flex gap-1 text-lg text-white justify-center items-center">
                 Sort by:
                 <select
                     value={sort}
@@ -56,7 +56,7 @@ const DateInput = () => {
                     <option value="timeTaken">Time Taken</option>
                 </select>
             </span>
-            <span className="flex gap-1 text-white text-lg justify-center items-center">
+            <span className="flex text-white gap-1 text-lg justify-center items-center">
                 Order:
                 {order === 1 ? (
                     <GrAscend
@@ -73,4 +73,4 @@ const DateInput = () => {
         </div>
     );
 };
-export default DateInput;
+export default FilterInputs;
