@@ -5,7 +5,6 @@ import FullScreenSpinner from "../components/FullScreenSpinner";
 import Spinner from "../components/Spinner";
 import GameDataDisplay from "../components/history/GameDataDisplay";
 import Filter from "../components/history/Filter";
-import { resetFilters } from "../redux/filterSlice";
 
 const History = () => {
     const dispatch = useDispatch();
