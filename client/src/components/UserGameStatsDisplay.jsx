@@ -23,7 +23,7 @@ const UserGameStats = () => {
         };
 
         fetchUserData();
-    }, []);
+    }, [currentUser._id]);
 
     const timeFormat = (time) => {
         const hrs = Math.floor(time / 3600);
