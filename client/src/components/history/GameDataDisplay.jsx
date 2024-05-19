@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const GameDataDisplay = ({ gameData }) => {
     const { currentUser } = useSelector((state) => state.user);
-    const date = new Date(gameData.completedAt).toUTCString();
+    const date = new Date(gameData.completedAt).toLocaleDateString();
 
     const formatTimeTaken = (time) => {
         const mins =
@@ -31,7 +31,7 @@ const GameDataDisplay = ({ gameData }) => {
             className="flex w-[80%] flex-col p-5 rounded-lg bg-white text-black border border-black gap-3 shadow-lg transition-scale duration-50 hover:scale-[1.01]"
         >
             <p className="text-xl">
-                <span className="font-semibold">Completed At:</span> {date}
+                <span className="font-semibold">Completed On:</span> {date}
             </p>
             <p className="text-xl">
                 <span className="font-semibold">Difficulty:</span>{" "}
