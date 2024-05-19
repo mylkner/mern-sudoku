@@ -2,10 +2,10 @@ import Game from "../schemas/userGameData.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
 export const getUserGameData = async (req, res, next) => {
-    if (req.user.id !== req.params.id)
-        throw errorHandler(401, "User authentication failed");
-
     try {
+        if (req.user.id !== req.params.id)
+            throw errorHandler(401, "User authentication failed");
+
         const games = await Game.find({ userRef: req.params.id }).sort({
             completedAt: 1,
         });
@@ -104,10 +104,10 @@ export const getUserGameData = async (req, res, next) => {
 };
 
 export const getGameHistory = async (req, res, next) => {
-    if (req.user.id !== req.params.id)
-        throw errorHandler(401, "User authentication failed");
-
     try {
+        if (req.user.id !== req.params.id)
+            throw errorHandler(401, "User authentication failed");
+
         const limit = req.query.limit || 9;
         const startIndex = req.query.startIndex || 0;
         const { from, to, difficulties, mistakesMade, timeTaken, sort, order } =
@@ -151,13 +151,13 @@ export const getGameHistory = async (req, res, next) => {
 };
 
 export const postGameData = async (req, res, next) => {
-    const { timeTaken, difficulty, mistakesMade, gridMatrix, userRef } =
-        req.body;
-
-    if (req.user.id !== userRef)
-        throw errorHandler(401, "User authentication failed");
-
     try {
+        const { timeTaken, difficulty, mistakesMade, gridMatrix, userRef } =
+            req.body;
+
+        if (req.user.id !== userRef)
+            throw errorHandler(401, "User authentication failed");
+
         const gameData = await Game.create({
             timeTaken,
             difficulty,
