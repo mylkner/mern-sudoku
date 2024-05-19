@@ -36,7 +36,7 @@ const FilterInputs = () => {
             </span>
             <span className="flex gap-2 justify-center items-center">
                 <p className="text-lg text-white">
-                    Longest Time Taken (in seconds):
+                    Longest time taken (in seconds):
                 </p>
                 <input
                     type="number"
