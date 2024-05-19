@@ -1,19 +1,20 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
 import UserGameStats from "../components/UserGameStatsDisplay";
-import { useState } from "react";
+import { signInOrUpdateUserSuccess } from "../redux/userSlice";
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
-    const initialFormData = {
+    const [formData, setFormData] = useState({
         username: currentUser.username,
         email: currentUser.email,
         password: "",
-    };
-    const [formData, setFormData] = useState(initialFormData);
+    });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -28,11 +29,14 @@ const Profile = () => {
         setSuccess(false);
 
         try {
-            await axios.post("", formData);
+            const { data } = await axios.put(
+                "/api/auth/update/" + currentUser._id,
+                formData
+            );
             setLoading(false);
             setSuccess(true);
             setError(null);
-            setFormData(initialFormData);
+            dispatch(signInOrUpdateUserSuccess(data.user));
         } catch (error) {
             setError(error.response.data.message);
             setLoading(false);
