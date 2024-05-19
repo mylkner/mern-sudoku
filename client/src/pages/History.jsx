@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 import Spinner from "../components/Spinner";
@@ -7,7 +7,6 @@ import GameDataDisplay from "../components/history/GameDataDisplay";
 import Filter from "../components/history/Filter";
 
 const History = () => {
-    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const filterData = useSelector((state) => state.filter);
 
