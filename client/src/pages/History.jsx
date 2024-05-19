@@ -65,13 +65,7 @@ const History = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await fetchGameData();
-    };
-
-    const resetFilter = async () => {
-        dispatch(resetFilters());
-        console.log(filterData);
-        await fetchGameData();
+        await fetchGameData(filterData);
     };
 
     return (
@@ -85,11 +79,7 @@ const History = () => {
                 </p>
             ) : (
                 <>
-                    <Filter
-                        onSubmit={onSubmit}
-                        onReset={resetFilter}
-                        disabled={loading}
-                    />
+                    <Filter onSubmit={onSubmit} disabled={loading} />
                     <div className="flex flex-col w-full items-center justify-center gap-3 p-3">
                         {userGameData.map((data) => (
                             <GameDataDisplay key={data._id} gameData={data} />
