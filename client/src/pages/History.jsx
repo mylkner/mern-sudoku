@@ -9,6 +9,7 @@ import Filter from "../components/history/Filter";
 const History = () => {
     const { currentUser } = useSelector((state) => state.user);
     const filterData = useSelector((state) => state.filter);
+    const [currentFilters, setCurrentFilters] = useState({});
 
     const [userGameData, setUserGameData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,19 +17,21 @@ const History = () => {
     const [showMore, setShowMore] = useState(false);
 
     useEffect(() => {
-        fetchGameData();
+        fetchGameData(filterData);
     }, []);
 
-    const fetchGameData = async () => {
+    const fetchGameData = async (filters) => {
         setLoading(true);
         try {
             const { data } = await axios.post(
                 "/api/user/history/" + currentUser._id + "?limit=9",
-                filterData
+                filters
             );
 
             setUserGameData(data.gameData);
             setLoading(false);
+            setCurrentFilters(filterData);
+            console.log(currentFilters);
 
             if (data.gameData.length > 8) {
                 setShowMore(true);
@@ -49,7 +52,7 @@ const History = () => {
                     currentUser._id +
                     "?limit=9&startIndex=" +
                     userGameData.length,
-                filterData
+                currentFilters
             );
 
             setUserGameData([...userGameData, ...data.gameData]);
