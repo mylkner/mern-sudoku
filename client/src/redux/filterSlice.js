@@ -61,6 +61,8 @@ const filterSlice = createSlice({
             state.difficulties = [];
             state.mistakesMade = [];
             state.timeTaken = "";
+            state.sort = "completedAt";
+            state.order = -1;
         },
     },
 });
