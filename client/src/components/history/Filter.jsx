@@ -1,10 +1,14 @@
 import { FaFilter } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { setDifficulties, setMistakesMade } from "../../redux/filterSlice";
+import {
+    resetFilters,
+    setDifficulties,
+    setMistakesMade,
+} from "../../redux/filterSlice";
 import Dropdown from "./FilterDropdowns";
 import DateInput from "./FilterInputs";
 
-const Filter = ({ onSubmit, onReset, disabled }) => {
+const Filter = ({ onSubmit, disabled }) => {
     const dispatch = useDispatch();
     const { difficulties, mistakesMade } = useSelector((state) => state.filter);
 
@@ -44,7 +48,7 @@ const Filter = ({ onSubmit, onReset, disabled }) => {
                 </button>
                 <button
                     type="button"
-                    onClick={onReset}
+                    onClick={() => dispatch(resetFilters())}
                     disabled={disabled}
                     className="disabled:bg-red-300 bg-red-500 hover:bg-red-400 text-white text-lg rounded-lg border border-black p-3 shadow-sm"
                 >
