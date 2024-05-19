@@ -56,7 +56,7 @@ const SignUp = () => {
             />
             <Input
                 id="email"
-                text={"Username"}
+                text={"Email"}
                 loading={loading}
                 value={formData.email}
                 type={"email"}
