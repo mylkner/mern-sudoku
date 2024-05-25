@@ -60,7 +60,12 @@ export const signin = async (req, res, next) => {
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const { password: pass, ...rest } = validUser._doc;
 
-        res.cookie("accessToken", token, { httpOnly: false, secure: true })
+        res.cookie("accessToken", token, {
+            httpOnly: false,
+            secure: true,
+            domain: ".vercel.app",
+            path: "/",
+        })
             .status(200)
             .json({
                 success: true,
