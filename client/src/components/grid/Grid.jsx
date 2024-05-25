@@ -179,7 +179,10 @@ const Grid = () => {
                     <div className="flex flex-wrap border border-black w-full md:max-w-[450px] md:min-w-[400px] relative">
                         {loading && (
                             <div className="cursor-pointer flex items-center justify-center absolute top-0 right-0 bottom-0 left-0 z-10 bg-white">
-                                <Spinner size={"text-3xl"} />
+                                <Spinner
+                                    size={"text-3xl"}
+                                    color={"text-blue-500"}
+                                />
                             </div>
                         )}
                         {gridDisplay}
