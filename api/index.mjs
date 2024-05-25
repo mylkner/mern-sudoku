@@ -9,19 +9,7 @@ import userRouter from "./routes/userRoute.js";
 
 dotenv.config();
 
-mongoose
-    .connect(process.env.MONGO)
-    .then(() => {
-        console.log("Connected to db");
-        app.listen(3000, () => console.log("Server running on port 3000"));
-    })
-    .catch((err) => console.log(err.message));
-
 const app = express();
-
-app.get("/", (req, res) => {
-    res.status(200).json("server is running");
-});
 
 app.use(
     cors({
@@ -33,6 +21,10 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/", (req, res) => {
+    res.status(200).json("server is running");
+});
 
 app.use("/api/auth/", authRouter);
 app.use("/api/sudoku/", sudokoRouter);
@@ -48,5 +40,13 @@ app.use((err, req, res, next) => {
         message,
     });
 });
+
+mongoose
+    .connect(process.env.MONGO)
+    .then(() => {
+        console.log("Connected to db");
+        app.listen(3000, () => console.log("Server running on port 3000"));
+    })
+    .catch((err) => console.log(err.message));
 
 export default app;

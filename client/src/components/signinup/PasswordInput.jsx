@@ -19,12 +19,12 @@ const PasswordInput = ({ loading, handleChange, password, error }) => {
                 {passwordView === "password" ? (
                     <FaEyeSlash
                         onClick={handlePasswordViewChange}
-                        className="text-2xl"
+                        className="text-2xl cursor-pointer"
                     />
                 ) : (
                     <FaEye
                         onClick={handlePasswordViewChange}
-                        className="text-2xl"
+                        className="text-2xl cursor-pointer"
                     />
                 )}
             </span>
