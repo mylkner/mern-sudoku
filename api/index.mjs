@@ -11,14 +11,17 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-    cors({
-        origin: "https://sudoku-theta-flax.vercel.app",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
-    })
-);
+const corsOptions = {
+    origin: "https://sudoku-theta-flax.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
