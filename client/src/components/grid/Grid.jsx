@@ -5,6 +5,7 @@ import GridCell from "./GridCell";
 import Timer from "./Timer";
 import Difficulty from "./Difficulty";
 import Buttons from "./Buttons";
+import Spinner from "../Spinner";
 import PauseScreen from "./PauseScreen";
 import GameComplete from "./GameComplete";
 import GameOver from "./GameOver";
@@ -29,12 +30,14 @@ const Grid = () => {
     );
     const [gridColors, setGridColors] = useState(gridColorsInitial);
     const [mistakes, setMistakes] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         return () => dispatch(reset());
     }, []);
 
     async function generateGame() {
+        setLoading(true);
         setGridColors(gridColorsInitial);
         try {
             const { data } = await axios.post("/api/sudoku/generate-game", {
@@ -42,8 +45,10 @@ const Grid = () => {
             });
             setGridMatrix(data.partialBoard);
             dispatch(setIsPlaying());
+            setLoading(false);
         } catch (error) {
             console.log(error.response.data.message);
+            setLoading(false);
         }
     }
 
@@ -172,6 +177,11 @@ const Grid = () => {
                         </span>
                     </div>
                     <div className="flex flex-wrap border border-black w-full md:max-w-[450px] md:min-w-[400px] relative">
+                        {loading && (
+                            <div className="cursor-pointer flex items-center justify-center absolute top-0 right-0 bottom-0 left-0 z-10 bg-white">
+                                <Spinner size={"text-3xl"} />
+                            </div>
+                        )}
                         {gridDisplay}
                         {isPaused && (
                             <PauseScreen
