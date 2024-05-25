@@ -63,7 +63,7 @@ export const signin = async (req, res, next) => {
         res.cookie("accessToken", token, {
             httpOnly: false,
             secure: true,
-            domain: ".vercel.app",
+            domain: ".sudoku-theta-flax.vercel.app",
             path: "/",
         })
             .status(200)
