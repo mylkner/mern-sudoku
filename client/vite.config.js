@@ -10,10 +10,7 @@ export default defineConfig(({ mode }) => {
         server: {
             proxy: {
                 "/api": {
-                    target:
-                        mode === "production"
-                            ? env.VITE_SERVER_URL
-                            : "http://localhost:3000",
+                    target: "https://mern-sudoku.vercel.app",
                     changeOrigin: true,
                 },
             },
