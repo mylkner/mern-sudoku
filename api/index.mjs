@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRoute.js";
 import sudokoRouter from "./routes/sudokuRoute.js";
@@ -22,6 +23,11 @@ app.get("/", (req, res) => {
     res.status(200).json("server is running");
 });
 
+app.use(
+    cors({
+        origin: "https://sudoku-theta-flax.vercel.app/",
+    })
+);
 app.use(express.json());
 app.use(cookieParser());
 
