@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 
 app.use(
     cors({
-        origin: "https://sudoku-theta-flax.vercel.app",
+        credentials: true,
     })
 );
 app.use(express.json());
