@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd());
     const server =
         mode === "production" ? env.VITE_SERVER_URL : "http://localhost:3000";
-
+    console.log(server);
     return {
         plugins: [react()],
         server: {
