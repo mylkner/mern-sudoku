@@ -37,9 +37,12 @@ const Grid = () => {
     async function generateGame() {
         setGridColors(gridColorsInitial);
         try {
-            const { data } = await axios.post("/api/sudoku/generate-game", {
-                difficulty,
-            });
+            const { data } = await axios.post(
+                "https://mern-sudoku.vercel.app/api/sudoku/generate-game",
+                {
+                    difficulty,
+                }
+            );
             setGridMatrix(data.partialBoard);
             dispatch(setIsPlaying());
         } catch (error) {
