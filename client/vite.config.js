@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         proxy: {
             "/api": {
-                target: "https://mern-sudoku-91onya7r8-mylos-projects-7f6cb773.vercel.app/",
+                target: "https://mern-sudoku-n77wqns0s-mylos-projects-7f6cb773.vercel.app",
             },
         },
     },
