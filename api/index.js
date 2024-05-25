@@ -18,6 +18,10 @@ mongoose
 
 const app = express();
 
+app.get("/test", (req, res) => {
+    res.status(200).json("hello");
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
