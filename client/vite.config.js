@@ -11,7 +11,6 @@ export default defineConfig(({ mode }) => {
             proxy: {
                 "/api": {
                     target: "https://mern-sudoku.vercel.app",
-                    changeOrigin: true,
                 },
             },
         },
