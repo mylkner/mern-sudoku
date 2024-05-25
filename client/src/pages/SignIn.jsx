@@ -23,7 +23,9 @@ const SignIn = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.post("/api/auth/sign-in", formData);
+            const { data } = await axios.post("/api/auth/sign-in", formData, {
+                withCredentials: true,
+            });
             setLoading(false);
             setError(null);
             setFormData(initialFormData);

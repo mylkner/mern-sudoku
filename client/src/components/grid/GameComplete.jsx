@@ -35,13 +35,17 @@ const GameComplete = ({ board, onClick, mistakes }) => {
         setLoading(true);
 
         try {
-            await axios.post("/api/user/game-data", {
-                timeTaken: time,
-                difficulty,
-                mistakesMade: mistakes,
-                gridMatrix: board,
-                userRef: currentUser._id,
-            });
+            await axios.post(
+                "/api/user/game-data",
+                {
+                    timeTaken: time,
+                    difficulty,
+                    mistakesMade: mistakes,
+                    gridMatrix: board,
+                    userRef: currentUser._id,
+                },
+                { withCredentials: true }
+            );
             setLoading(false);
         } catch (error) {
             setLoading(false);

@@ -36,7 +36,8 @@ const Profile = () => {
         try {
             const { data } = await axios.put(
                 "/api/auth/update/" + currentUser._id,
-                formData
+                formData,
+                { withCredentials: true }
             );
             setLoading(false);
             setSuccess(true);
@@ -53,7 +54,9 @@ const Profile = () => {
         setError(null);
 
         try {
-            await axios.get("/api/auth/sign-out/" + currentUser._id);
+            await axios.get("/api/auth/sign-out/" + currentUser._id, {
+                withCredentials: true,
+            });
             dispatch(deleteOrSignOutUser());
             setLoading(false);
         } catch (error) {
@@ -67,7 +70,9 @@ const Profile = () => {
         setError(null);
 
         try {
-            await axios.delete("/api/auth/delete/" + currentUser._id);
+            await axios.delete("/api/auth/delete/" + currentUser._id, {
+                withCredentials: true,
+            });
             dispatch(deleteOrSignOutUser());
             setLoading(false);
         } catch (error) {

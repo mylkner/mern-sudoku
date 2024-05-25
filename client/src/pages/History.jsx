@@ -29,7 +29,8 @@ const History = () => {
         try {
             const { data } = await axios.post(
                 "/api/user/history/" + currentUser._id + "?limit=9",
-                filters
+                filters,
+                { withCredentials: true }
             );
 
             setUserGameData(data.gameData);
@@ -55,7 +56,8 @@ const History = () => {
                     currentUser._id +
                     "?limit=9&startIndex=" +
                     userGameData.length,
-                currentFilters
+                currentFilters,
+                { withCredentials: true }
             );
 
             setUserGameData([...userGameData, ...data.gameData]);

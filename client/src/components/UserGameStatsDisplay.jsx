@@ -13,7 +13,8 @@ const UserGameStats = () => {
         const fetchUserData = async () => {
             try {
                 const { data } = await axios.get(
-                    "/api/user/" + currentUser._id
+                    "/api/user/" + currentUser._id,
+                    { withCredentials: true }
                 );
                 setUserGameStats(data.stats);
                 setLoading(false);

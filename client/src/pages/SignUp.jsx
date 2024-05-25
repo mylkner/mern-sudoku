@@ -23,7 +23,9 @@ const SignUp = () => {
         setSuccess(false);
 
         try {
-            await axios.post("/api/auth/sign-up", formData);
+            await axios.post("/api/auth/sign-up", formData, {
+                withCredentials: true,
+            });
             setLoading(false);
             setSuccess(true);
             setError(null);
