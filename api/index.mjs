@@ -25,6 +25,22 @@ app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+    console.log(
+        `${req.method} request for '${req.url}' - ${JSON.stringify(
+            req.headers
+        )}`
+    );
+    next();
+});
+
+app.use((req, res, next) => {
+    res.on("finish", () => {
+        console.log("Response headers:", res.getHeaders());
+    });
+    next();
+});
+
 app.get("/", (req, res) => {
     res.status(200).json("server is running");
 });
