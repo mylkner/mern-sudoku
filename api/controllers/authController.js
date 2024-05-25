@@ -64,7 +64,6 @@ export const signin = async (req, res, next) => {
             httpOnly: false,
             secure: true,
             domain: ".sudoku-theta-flax.vercel.app",
-            path: "/",
         })
             .status(200)
             .json({
