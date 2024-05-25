@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 import Spinner from "../components/Spinner";
 import GameDataDisplay from "../components/history/GameDataDisplay";

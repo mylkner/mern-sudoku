@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameComplete } from "../../redux/sudokuSlice";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import FullScreenSpinner from "../FullScreenSpinner";
 
 const GameComplete = ({ board, onClick, mistakes }) => {

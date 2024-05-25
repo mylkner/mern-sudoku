@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import axios from "../../utils/axiosInstance";
 import GridCell from "./GridCell";
 import Timer from "./Timer";
 import Difficulty from "./Difficulty";

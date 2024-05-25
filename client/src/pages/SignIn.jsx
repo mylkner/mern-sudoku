@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { signInOrUpdateUserSuccess } from "../redux/userSlice";
 import Container from "../components/signinup/Container";
 import Input from "../components/signinup/Input";

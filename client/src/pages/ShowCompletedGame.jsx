@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import GridCell from "../components/grid/GridCell";
 import FullScreenSpinner from "../components/FullScreenSpinner";
 

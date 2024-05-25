@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
