@@ -38,12 +38,12 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-    const { usernameOrEmail, password } = req.body;
-
-    if (!usernameOrEmail || !password)
-        throw errorHandler(400, "All fields are required");
-
     try {
+        const { usernameOrEmail, password } = req.body;
+
+        if (!usernameOrEmail || !password)
+            throw errorHandler(400, "All fields are required");
+
         const validUser = await User.findOne({
             $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
         });
