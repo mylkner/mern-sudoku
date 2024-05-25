@@ -10,7 +10,10 @@ export default defineConfig(({ mode }) => {
         server: {
             proxy: {
                 "/api": {
-                    target: env.VITE_SERVER_URL,
+                    target:
+                        mode === "production"
+                            ? env.VITE_SERVER_URL
+                            : "http://localhost:3000",
                     changeOrigin: true,
                 },
             },
