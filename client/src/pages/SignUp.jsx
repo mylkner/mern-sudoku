@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import Container from "../components/signinup/Container";
 import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
