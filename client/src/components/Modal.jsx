@@ -11,7 +11,7 @@ const Modal = ({ yes, no, disabled }) => {
                     <button
                         disabled={disabled}
                         onClick={yes}
-                        className="bg-green-600 text-xl text-center text-white p-3 w-[45%] border border-black rounded-lg"
+                        className="bg-green-600 text-xl flex items-center justify-center text-white p-3 w-[45%] border border-black rounded-lg"
                     >
                         {disabled ? <Spinner size="text-2xl" /> : "Yes"}
                     </button>
