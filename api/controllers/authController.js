@@ -122,7 +122,12 @@ export const signout = (req, res, next) => {
         if (req.params.id !== req.user.id)
             throw errorHandler(401, "User authentication failed");
 
-        res.clearCookie("accessToken");
+        res.clearCookie("accessToken", {
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            sameSite: "None",
+        });
         res.status(200).json({
             success: true,
             message: "User has been logged out",
