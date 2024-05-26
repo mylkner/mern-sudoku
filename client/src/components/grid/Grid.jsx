@@ -101,8 +101,6 @@ const Grid = () => {
     }
 
     async function handleValueChange(e, row, column) {
-        if (e.target.value === "e") return;
-
         const inputValue = Number(e.target.value);
         const isValid = await isInputValid(inputValue, row, column);
 
