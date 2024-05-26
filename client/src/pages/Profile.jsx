@@ -14,11 +14,12 @@ import {
 const Profile = () => {
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         username: currentUser.username,
         email: currentUser.email,
         password: "",
-    });
+    };
+    const [formData, setFormData] = useState(initialFormData);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -42,6 +43,7 @@ const Profile = () => {
             setLoading(false);
             setSuccess(true);
             setError(null);
+            setFormData(initialFormData);
             dispatch(signInOrUpdateUserSuccess(data.user));
         } catch (error) {
             setError(error.response.data.message);
