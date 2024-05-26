@@ -64,6 +64,7 @@ export const signin = async (req, res, next) => {
             httpOnly: true,
             secure: true,
             path: "/",
+            sameSite: "None",
         })
             .status(200)
             .json({
