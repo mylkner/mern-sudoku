@@ -13,7 +13,10 @@ const ShowCompletedGame = () => {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const { data } = await axios.get("/api/user/game/" + params.id);
+                const { data } = await axios.get(
+                    "/api/user/game/" + params.id,
+                    { withCredentials: true }
+                );
                 setGridMatrix(data.gridMatrix.map((arr) => arr.slice(0)));
                 setLoading(false);
             } catch (error) {
