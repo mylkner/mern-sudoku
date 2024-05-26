@@ -25,7 +25,11 @@ const Buttons = (props) => {
             >
                 New Game
             </button>
-            <button onClick={props.resetGame} className={className}>
+            <button
+                onClick={props.resetGame}
+                className={className}
+                disabled={!isPlaying}
+            >
                 Reset
             </button>
         </>
