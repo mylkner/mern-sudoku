@@ -22,12 +22,16 @@ export const generateGame = (req, res, next) => {
 };
 
 export const validateNumber = (req, res, next) => {
-    const { value, row, column } = req.body;
+    try {
+        const { value, row, column } = req.body;
 
-    if (board[row][column] === value) {
-        res.status(200).json({ success: true });
-    } else {
-        res.status(200).json({ success: false });
+        if (board[row][column] === value) {
+            res.status(200).json({ success: true });
+        } else {
+            res.status(200).json({ success: false });
+        }
+    } catch (error) {
+        next(error);
     }
 };
 
