@@ -148,7 +148,12 @@ export const deleteUser = async (req, res, next) => {
 
         await Game.deleteMany({ userRef: req.params.id });
 
-        res.clearCookie("accessToken");
+        res.clearCookie("accessToken", {
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            sameSite: "None",
+        });
         res.status(200).json({
             success: true,
             message: "User has been deleted",
