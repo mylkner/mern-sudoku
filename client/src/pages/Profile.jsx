@@ -24,7 +24,7 @@ const Profile = () => {
     const [success, setSuccess] = useState(false);
     const [willDelete, setWillDelete] = useState(false);
     const [showAddSecurityQs, setShowAddSecurityQs] = useState(false);
-    console.log(currentUser);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
