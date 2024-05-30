@@ -58,13 +58,11 @@ const AddSecurityQs = ({ currentUserId, close }) => {
                 className="ml-auto text-red-600 text-2xl cursor-pointer"
             />
             <article className="text-lg mb-5">
-                In case you forget your password, you can add a security
-                question. You can then login using this security question and
-                update your password from the profile page.
+                Add a security question as an alternative way to login.
                 <br />
                 <span className="font-semibold">
                     (Note: Security question cannot be updated or viewed after
-                    setting it.)
+                    setting it. Answer is case sensitive.)
                 </span>
             </article>
 

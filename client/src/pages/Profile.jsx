@@ -140,7 +140,7 @@ const Profile = () => {
                         {!currentUser.hasSecurityQs ? (
                             <button
                                 type="button"
-                                className="text-left text-red-600 hover:underline"
+                                className="text-left text-red-600 hover:underline w-fit"
                                 onClick={() => setShowAddSecurityQs(true)}
                             >
                                 If you forget your password
