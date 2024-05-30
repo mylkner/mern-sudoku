@@ -5,11 +5,12 @@ import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
 import UserGameStats from "../components/UserGameStatsDisplay";
-import Modal from "../components/Modal";
+import DeleteAccount from "../components/modals/DeleteAccount.jsx";
 import {
     signInOrUpdateUserSuccess,
     deleteOrSignOutUser,
 } from "../redux/userSlice";
+import AddSecurityQs from "../components/modals/AddSecurityQs.jsx";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Profile = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [willDelete, setWillDelete] = useState(false);
+    const [showAddSecurityQs, setShowAddSecurityQs] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -135,6 +137,14 @@ const Profile = () => {
                             </button>
                         </div>
 
+                        <button
+                            type="button"
+                            className="text-left text-red-600 hover:underline"
+                            onClick={() => setShowAddSecurityQs(true)}
+                        >
+                            If you forget your password
+                        </button>
+
                         {success && (
                             <p className="text-green-600 text-lg font-semibold">
                                 User updated Successfully!
@@ -145,10 +155,16 @@ const Profile = () => {
                 </div>
             </div>
             {willDelete && (
-                <Modal
+                <DeleteAccount
                     yes={deleteUser}
                     no={() => setWillDelete(false)}
                     disabled={loading}
+                />
+            )}
+            {showAddSecurityQs && (
+                <AddSecurityQs
+                    currentUserId={currentUser._id}
+                    close={() => setShowAddSecurityQs(false)}
                 />
             )}
         </>
