@@ -68,6 +68,44 @@ export const signin = async (req, res, next) => {
     }
 };
 
+export const securityQsSignin = async (req, res, next) => {
+    try {
+        const { username, question, answer } = req.body;
+
+        if (!username || !question || !answer)
+            throw errorHandler(400, "All fields required.");
+
+        const validUser = await User.findOne({ username });
+
+        if (!validUser) throw errorHandler(404, "User not found.");
+
+        const securityQs = await SecurityQs.findOne({
+            userRef: validUser._doc._id,
+        });
+
+        if (!securityQs)
+            throw errorHandler(404, "User has no security question.");
+
+        if (
+            question !== securityQs._doc._question ||
+            answer !== securityQs._doc._answer
+        )
+            throw errorHandler(401, "Invalid credentials.");
+
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+        const { password, ...rest } = validUser._doc;
+
+        res.cookie("accessToken", token, config[process.env.NODE_ENV].cookie)
+            .status(200)
+            .json({
+                success: true,
+                user: rest,
+            });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const update = async (req, res, next) => {
     try {
         if (req.user.id !== req.params.id)
@@ -103,42 +141,6 @@ export const update = async (req, res, next) => {
         const { password: pass, ...rest } = updatedUser._doc;
 
         res.status(200).json({ success: true, user: rest });
-    } catch (error) {
-        next(error);
-    }
-};
-
-export const signout = (req, res, next) => {
-    try {
-        if (req.params.id !== req.user.id)
-            throw errorHandler(401, "User authentication failed");
-
-        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
-        res.status(200).json({
-            success: true,
-            message: "User has been logged out",
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
-export const deleteUser = async (req, res, next) => {
-    try {
-        if (req.params.id !== req.user.id)
-            throw errorHandler(401, "User authentication failed");
-
-        const toDelete = await User.findByIdAndDelete(req.params.id);
-
-        if (!toDelete) throw errorHandler(404, "User not found");
-
-        await Game.deleteMany({ userRef: req.params.id });
-
-        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
-        res.status(200).json({
-            success: true,
-            message: "User has been deleted",
-        });
     } catch (error) {
         next(error);
     }
@@ -182,6 +184,42 @@ export const addSecurityQs = async (req, res, next) => {
             success: true,
             message: "Security question added successfully.",
             user: rest,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const signout = (req, res, next) => {
+    try {
+        if (req.params.id !== req.user.id)
+            throw errorHandler(401, "User authentication failed");
+
+        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
+        res.status(200).json({
+            success: true,
+            message: "User has been logged out",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        if (req.params.id !== req.user.id)
+            throw errorHandler(401, "User authentication failed");
+
+        const toDelete = await User.findByIdAndDelete(req.params.id);
+
+        if (!toDelete) throw errorHandler(404, "User not found");
+
+        await Game.deleteMany({ userRef: req.params.id });
+
+        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
+        res.status(200).json({
+            success: true,
+            message: "User has been deleted",
         });
     } catch (error) {
         next(error);
