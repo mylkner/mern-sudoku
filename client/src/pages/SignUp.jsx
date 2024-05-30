@@ -9,7 +9,6 @@ import LinkToSignInOrUp from "../components/signinup/LinkToSignInOrUp";
 const SignUp = () => {
     const initialFormData = {
         username: "",
-        email: "",
         password: "",
     };
     const [formData, setFormData] = useState(initialFormData);
@@ -55,16 +54,6 @@ const SignUp = () => {
                 handleChange={handleChange}
                 error={error}
                 errorType={"User"}
-            />
-            <Input
-                id="email"
-                text={"Email"}
-                loading={loading}
-                value={formData.email}
-                type={"email"}
-                handleChange={handleChange}
-                error={error}
-                errorType={"Email"}
             />
             <PasswordInput
                 loading={loading}

@@ -16,7 +16,6 @@ const Profile = () => {
     const { currentUser } = useSelector((state) => state.user);
     const [formData, setFormData] = useState({
         username: currentUser.username,
-        email: currentUser.email,
         password: "",
     });
     const [loading, setLoading] = useState(false);
@@ -44,7 +43,6 @@ const Profile = () => {
             setError(null);
             setFormData({
                 username: data.user.username,
-                email: data.user.password,
                 password: "",
             });
             dispatch(signInOrUpdateUserSuccess(data.user));
@@ -106,16 +104,6 @@ const Profile = () => {
                             handleChange={handleChange}
                             error={error}
                             errorType={"Username"}
-                        />
-                        <Input
-                            id="email"
-                            text={"Email"}
-                            loading={loading}
-                            value={formData.email}
-                            type={"email"}
-                            handleChange={handleChange}
-                            error={error}
-                            errorType={"Email"}
                         />
                         <PasswordInput
                             loading={loading}

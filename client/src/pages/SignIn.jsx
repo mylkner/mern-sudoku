@@ -10,7 +10,7 @@ import LinkToSignInOrUp from "../components/signinup/LinkToSignInOrUp";
 
 const SignIn = () => {
     const initialFormData = {
-        usernameOrEmail: "",
+        username: "",
         password: "",
     };
     const dispatch = useDispatch();
@@ -44,10 +44,10 @@ const SignIn = () => {
         <Container onSubmit={onSubmit}>
             <h1 className="text-center text-4xl ">Sign In</h1>
             <Input
-                id="usernameOrEmail"
-                text={"Username or Email"}
+                id="username"
+                text={"Username"}
                 loading={loading}
-                value={formData.usernameOrEmail}
+                value={formData.username}
                 type={"text"}
                 handleChange={handleChange}
                 error={error}

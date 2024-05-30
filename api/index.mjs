@@ -6,17 +6,13 @@ import cors from "cors";
 import authRouter from "./routes/authRoute.js";
 import sudokoRouter from "./routes/sudokuRoute.js";
 import userRouter from "./routes/userRoute.js";
+import config from "./config.json" assert { type: "json" };
 
 dotenv.config();
 
 const app = express();
 
-const corsOptions = {
-    origin: "https://sudoku-theta-flax.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-};
+const corsOptions = config[process.env.NODE_ENV].cors;
 
 app.use(cors(corsOptions));
 app.use(express.json());

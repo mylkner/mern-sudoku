@@ -1,13 +1,10 @@
 import { errorHandler } from "./errorHandler.js";
 
 export const validateInputs = async (req, res, doesUserExist) => {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
 
     if (doesUserExist && doesUserExist._doc.username === username)
         throw errorHandler(409, "Username already exists");
-
-    if (doesUserExist && doesUserExist._doc.email === email)
-        throw errorHandler(409, "Email in use");
 
     if (username.length < 4 || username.length > 12)
         throw errorHandler(

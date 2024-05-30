@@ -4,17 +4,16 @@ import { errorHandler } from "../utils/errorHandler.js";
 import { validateInputs } from "../utils/validateInputs.js";
 import User from "../schemas/userSchema.js";
 import Game from "../schemas/userGameData.js";
+import config from "../config.json" assert { type: "json" };
 
 export const signup = async (req, res, next) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, password } = req.body;
 
-        if (!username || !email || !password)
+        if (!username || !password)
             throw errorHandler(400, "All fields are required");
 
-        const doesUserExist = await User.findOne({
-            $or: [{ username }, { email }],
-        });
+        const doesUserExist = await User.findOne({ username });
 
         await validateInputs(req, res, doesUserExist);
 
@@ -22,7 +21,6 @@ export const signup = async (req, res, next) => {
 
         const newUser = await User.create({
             username,
-            email,
             password: hashedPassword,
         });
 
@@ -39,14 +37,12 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
     try {
-        const { usernameOrEmail, password } = req.body;
+        const { username, password } = req.body;
 
-        if (!usernameOrEmail || !password)
+        if (!username || !password)
             throw errorHandler(400, "All fields are required");
 
-        const validUser = await User.findOne({
-            $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-        });
+        const validUser = await User.findOne({ username });
 
         if (!validUser) throw errorHandler(404, "User not found");
 
@@ -60,12 +56,7 @@ export const signin = async (req, res, next) => {
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const { password: pass, ...rest } = validUser._doc;
 
-        res.cookie("accessToken", token, {
-            httpOnly: true,
-            secure: true,
-            path: "/",
-            sameSite: "None",
-        })
+        res.cookie("accessToken", token, config[process.env.NODE_ENV].cookie)
             .status(200)
             .json({
                 success: true,
@@ -81,10 +72,10 @@ export const update = async (req, res, next) => {
         if (req.user.id !== req.params.id)
             throw errorHandler(401, "User authentication failed");
 
-        const { username, email, password } = req.body;
+        const { username, password } = req.body;
 
         const doesUserExist = await User.findOne({
-            $or: [{ username }, { email }],
+            username,
             _id: { $ne: req.params.id },
         });
 
@@ -92,7 +83,6 @@ export const update = async (req, res, next) => {
 
         const updateFields = {
             username,
-            email,
         };
 
         if (password) {
@@ -122,12 +112,7 @@ export const signout = (req, res, next) => {
         if (req.params.id !== req.user.id)
             throw errorHandler(401, "User authentication failed");
 
-        res.clearCookie("accessToken", {
-            httpOnly: true,
-            secure: true,
-            path: "/",
-            sameSite: "None",
-        });
+        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
         res.status(200).json({
             success: true,
             message: "User has been logged out",
@@ -148,12 +133,7 @@ export const deleteUser = async (req, res, next) => {
 
         await Game.deleteMany({ userRef: req.params.id });
 
-        res.clearCookie("accessToken", {
-            httpOnly: true,
-            secure: true,
-            path: "/",
-            sameSite: "None",
-        });
+        res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
         res.status(200).json({
             success: true,
             message: "User has been deleted",
