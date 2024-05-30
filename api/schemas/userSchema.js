@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        hasSecurityQs: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

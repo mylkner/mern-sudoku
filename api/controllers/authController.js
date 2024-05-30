@@ -4,6 +4,7 @@ import { errorHandler } from "../utils/errorHandler.js";
 import { validateInputs } from "../utils/validateInputs.js";
 import User from "../schemas/userSchema.js";
 import Game from "../schemas/userGameData.js";
+import SecurityQs from "../schemas/securityQs.js";
 import config from "../config.json" assert { type: "json" };
 
 export const signup = async (req, res, next) => {
@@ -137,6 +138,50 @@ export const deleteUser = async (req, res, next) => {
         res.status(200).json({
             success: true,
             message: "User has been deleted",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const addSecurityQs = async (req, res, next) => {
+    try {
+        if (req.params.id !== req.user.id)
+            throw errorHandler(401, "User authentication failed");
+
+        const { securityQs, answer } = req.body;
+
+        if (!securityQs || !answer)
+            throw errorHandler(400, "All fields are required");
+
+        if (answer.length > 50)
+            throw errorHandler(
+                409,
+                "Answer may not be greater than 50 characters in length."
+            );
+
+        const hashedAnswer = bcryptjs.hashSync(answer, 10);
+
+        await SecurityQs.create({
+            question: securityQs,
+            answer: hashedAnswer,
+            userRef: req.params.id,
+        });
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: { hasSecurityQs: true },
+            },
+            { new: true, runValidators: true }
+        );
+
+        const { password, ...rest } = updatedUser._doc;
+
+        res.status(201).json({
+            success: true,
+            message: "Security question added successfully.",
+            user: rest,
         });
     } catch (error) {
         next(error);

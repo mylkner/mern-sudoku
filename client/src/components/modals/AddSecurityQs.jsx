@@ -1,14 +1,22 @@
 import { useState } from "react";
-import Container from "./Container.jsx";
+import { useDispatch } from "react-redux";
+import axios from "../../utils/axiosInstance.js";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import Container from "./Container.jsx";
+import SubmitButton from "../signinup/SubmitButton.jsx";
+import { signInOrUpdateUserSuccess } from "../../redux/userSlice.js";
 
 const AddSecurityQs = ({ currentUserId, close }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         securityQs: "childhoodFriend",
         answer: "",
     });
     const [passwordView, setPasswordView] = useState("password");
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handlePasswordViewChange = () => {
         passwordView === "text"
@@ -20,8 +28,27 @@ const AddSecurityQs = ({ currentUserId, close }) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setSuccess(false);
+
+        try {
+            const { data } = await axios.post(
+                "/api/auth/add-security-question/" + currentUserId,
+                formData,
+                {
+                    withCredentials: true,
+                }
+            );
+
+            setSuccess(true);
+            dispatch(signInOrUpdateUserSuccess(data.user));
+            setLoading(false);
+        } catch (error) {
+            setError(error.response.data.message);
+            setLoading(false);
+        }
     };
 
     return (
@@ -36,8 +63,8 @@ const AddSecurityQs = ({ currentUserId, close }) => {
                 update your password from the profile page.
                 <br />
                 <span className="font-semibold">
-                    (Note: Security question cannot be updated after setting
-                    it.)
+                    (Note: Security question cannot be updated or viewed after
+                    setting it.)
                 </span>
             </article>
 
@@ -48,6 +75,7 @@ const AddSecurityQs = ({ currentUserId, close }) => {
                 <span className="flex flex-col gap-2">
                     <p className="text-lg font-semibold">Question</p>
                     <select
+                        disabled={loading || success}
                         value={formData.securityQs}
                         className="p-3 border border-black rounded-lg text-black w-full truncate"
                         onChange={handleChange}
@@ -86,6 +114,7 @@ const AddSecurityQs = ({ currentUserId, close }) => {
                         )}
                     </span>
                     <input
+                        disabled={loading || success}
                         value={formData.answer}
                         id="answer"
                         type={passwordView}
@@ -93,7 +122,22 @@ const AddSecurityQs = ({ currentUserId, close }) => {
                         placeholder="answer"
                         className="w-full border border-black p-3 rounded-lg"
                     />
+                    {error && error.includes("Answer") && (
+                        <p className="text-red-600 text-lg">{error}</p>
+                    )}
                 </div>
+
+                {!success ? (
+                    <SubmitButton
+                        loading={loading}
+                        text={"Submit"}
+                        error={error}
+                    />
+                ) : (
+                    <p className="text-green-600 text-lg font-semibold">
+                        Security question added successfully.
+                    </p>
+                )}
             </form>
         </Container>
     );

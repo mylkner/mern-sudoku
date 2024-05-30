@@ -24,7 +24,7 @@ const Profile = () => {
     const [success, setSuccess] = useState(false);
     const [willDelete, setWillDelete] = useState(false);
     const [showAddSecurityQs, setShowAddSecurityQs] = useState(false);
-
+    console.log(currentUser);
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
@@ -137,13 +137,19 @@ const Profile = () => {
                             </button>
                         </div>
 
-                        <button
-                            type="button"
-                            className="text-left text-red-600 hover:underline"
-                            onClick={() => setShowAddSecurityQs(true)}
-                        >
-                            If you forget your password
-                        </button>
+                        {!currentUser.hasSecurityQs ? (
+                            <button
+                                type="button"
+                                className="text-left text-red-600 hover:underline"
+                                onClick={() => setShowAddSecurityQs(true)}
+                            >
+                                If you forget your password
+                            </button>
+                        ) : (
+                            <p className="text-green-600 font-semibold">
+                                Security question added.
+                            </p>
+                        )}
 
                         {success && (
                             <p className="text-green-600 text-lg font-semibold">
