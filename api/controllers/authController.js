@@ -217,6 +217,7 @@ export const deleteUser = async (req, res, next) => {
         if (!toDelete) throw errorHandler(404, "User not found");
 
         await Game.deleteMany({ userRef: req.params.id });
+        await SecurityQs.deleteOne({ userRef: req.params.id });
 
         res.clearCookie("accessToken", config[process.env.NODE_ENV].cookie);
         res.status(200).json({
