@@ -127,7 +127,11 @@ const SignInSecurityQs = ({ close }) => {
                         <p className="text-red-600 text-lg">{error}</p>
                     )}
                 </div>
-                <SubmitButton loading={loading} text={"Submit"} error={error} />
+                <SubmitButton
+                    loading={loading}
+                    text={"Sign In"}
+                    error={error}
+                />
             </form>
         </Container>
     );
