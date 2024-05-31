@@ -86,10 +86,12 @@ export const securityQsSignin = async (req, res, next) => {
         if (!securityQs)
             throw errorHandler(404, "User has no security question.");
 
-        if (
-            question !== securityQs._doc._question ||
-            answer !== securityQs._doc._answer
-        )
+        const isValidAnswer = bcryptjs.compareSync(
+            answer,
+            securityQs._doc.answer
+        );
+
+        if (question !== securityQs._doc.question || !isValidAnswer)
             throw errorHandler(401, "Invalid credentials.");
 
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);

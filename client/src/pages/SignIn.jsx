@@ -7,6 +7,7 @@ import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
 import LinkToSignInOrUp from "../components/signinup/LinkToSignInOrUp";
+import SignInSecurityQs from "../components/modals/SignInSecurityQs.jsx";
 
 const SignIn = () => {
     const initialFormData = {
@@ -17,6 +18,8 @@ const SignIn = () => {
     const [formData, setFormData] = useState(initialFormData);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [willSignInWithSecurityQs, setWillSignInWithSecurityQs] =
+        useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -41,30 +44,49 @@ const SignIn = () => {
     };
 
     return (
-        <Container onSubmit={onSubmit}>
-            <h1 className="text-center text-4xl ">Sign In</h1>
-            <Input
-                id="username"
-                text={"Username"}
-                loading={loading}
-                value={formData.username}
-                type={"text"}
-                handleChange={handleChange}
-                error={error}
-                errorType={"User"}
-            />
-            <PasswordInput
-                loading={loading}
-                handleChange={handleChange}
-                password={formData.password}
-                error={error}
-            />
-            <SubmitButton loading={loading} text={"Sign In"} error={error} />
-            <LinkToSignInOrUp
-                text={"Don't have an account?"}
-                link={"Sign-up"}
-            />
-        </Container>
+        <>
+            <Container onSubmit={onSubmit}>
+                <h1 className="text-center text-4xl ">Sign In</h1>
+                <Input
+                    id="username"
+                    text={"Username"}
+                    loading={loading}
+                    value={formData.username}
+                    type={"text"}
+                    handleChange={handleChange}
+                    error={error}
+                    errorType={"User"}
+                />
+                <PasswordInput
+                    loading={loading}
+                    handleChange={handleChange}
+                    password={formData.password}
+                    error={error}
+                />
+                <button
+                    disabled={loading}
+                    type="button"
+                    className="text-red-600 hover:underline mr-auto w-fit"
+                    onClick={() => setWillSignInWithSecurityQs(true)}
+                >
+                    Forgot password?
+                </button>
+                <SubmitButton
+                    loading={loading}
+                    text={"Sign In"}
+                    error={error}
+                />
+                <LinkToSignInOrUp
+                    text={"Don't have an account?"}
+                    link={"Sign-up"}
+                />
+            </Container>
+            {willSignInWithSecurityQs && (
+                <SignInSecurityQs
+                    close={() => setWillSignInWithSecurityQs(false)}
+                />
+            )}
+        </>
     );
 };
 

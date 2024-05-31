@@ -3,7 +3,7 @@ import Spinner from "../Spinner";
 
 const DeleteAccount = ({ yes, no, disabled }) => {
     return (
-        <Container>
+        <Container minOrMax={"max"}>
             <p className="text-xl mb-5">
                 Are you sure you want to delete your account?
             </p>
