@@ -53,8 +53,9 @@ const SignInSecurityQs = ({ close }) => {
     };
 
     return (
-        <Container minOrMax={"min"}>
+        <Container width={"min-w-[60%]"}>
             <IoMdCloseCircleOutline
+                hidden={loading}
                 onClick={close}
                 className="ml-auto text-red-600 text-2xl cursor-pointer"
             />

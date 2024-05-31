@@ -52,8 +52,9 @@ const AddSecurityQs = ({ currentUserId, close }) => {
     };
 
     return (
-        <Container minOrMax={"max"}>
+        <Container width={"max-w-[80%]"}>
             <IoMdCloseCircleOutline
+                hidden={loading}
                 onClick={close}
                 className="ml-auto text-red-600 text-2xl cursor-pointer"
             />
