@@ -57,7 +57,10 @@ export const signin = async (req, res, next) => {
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const { password: pass, ...rest } = validUser._doc;
 
-        res.cookie("accessToken", token, config[process.env.NODE_ENV].cookie)
+        res.cookie("accessToken", token, {
+            ...config[process.env.NODE_ENV].cookie,
+            maxAge: 100 * 365 * 24 * 60 * 60 * 1000,
+        })
             .status(200)
             .json({
                 success: true,
@@ -97,7 +100,10 @@ export const securityQsSignin = async (req, res, next) => {
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const { password, ...rest } = validUser._doc;
 
-        res.cookie("accessToken", token, config[process.env.NODE_ENV].cookie)
+        res.cookie("accessToken", token, {
+            ...config[process.env.NODE_ENV].cookie,
+            maxAge: 100 * 365 * 24 * 60 * 60 * 1000,
+        })
             .status(200)
             .json({
                 success: true,
