@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import GameDataDisplay from "../components/history/GameDataDisplay";
 import Filter from "../components/history/Filter";
 import { resetFilters } from "../redux/filterSlice";
+import { cookieExpired } from "../redux/userSlice.js";
 
 const History = () => {
     const dispatch = useDispatch();
@@ -45,6 +46,8 @@ const History = () => {
         } catch (error) {
             console.log(error.response.data.message);
             setLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 
@@ -66,6 +69,8 @@ const History = () => {
         } catch (error) {
             console.log(error.respone.data.message);
             setShowMoreLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 

@@ -5,7 +5,10 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import Container from "./Container.jsx";
 import SubmitButton from "../signinup/SubmitButton.jsx";
-import { signInOrUpdateUserSuccess } from "../../redux/userSlice.js";
+import {
+    cookieExpired,
+    signInOrUpdateUserSuccess,
+} from "../../redux/userSlice.js";
 
 const AddSecurityQs = ({ currentUserId, close }) => {
     const dispatch = useDispatch();
@@ -48,6 +51,8 @@ const AddSecurityQs = ({ currentUserId, close }) => {
         } catch (error) {
             setError(error.response.data.message);
             setLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 

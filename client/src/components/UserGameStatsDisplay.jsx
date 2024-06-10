@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axiosInstance";
 import FullScreenSpinner from "./FullScreenSpinner";
+import { cookieExpired } from "../redux/userSlice.js";
 
 const UserGameStats = () => {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const [userGameStats, setUserGameStats] = useState({});
     const [loading, setLoading] = useState(true);
@@ -20,6 +22,8 @@ const UserGameStats = () => {
                 setLoading(false);
             } catch (error) {
                 console.log(error.response.data.message);
+                if (error.response.data.message === "Unauthorised")
+                    dispatch(cookieExpired());
             }
         };
 

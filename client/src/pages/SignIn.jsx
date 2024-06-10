@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axiosInstance";
-import { signInOrUpdateUserSuccess } from "../redux/userSlice";
+import {
+    resetCookieExpired,
+    signInOrUpdateUserSuccess,
+} from "../redux/userSlice";
 import Container from "../components/signinup/Container";
 import Input from "../components/signinup/Input";
 import PasswordInput from "../components/signinup/PasswordInput";
 import SubmitButton from "../components/signinup/SubmitButton";
 import LinkToSignInOrUp from "../components/signinup/LinkToSignInOrUp";
 import SignInSecurityQs from "../components/modals/SignInSecurityQs.jsx";
+import Notification from "../components/Notification.jsx";
 
 const SignIn = () => {
+    const { cookieExpired } = useSelector((state) => state.user);
     const initialFormData = {
         username: "",
         password: "",
@@ -43,8 +48,13 @@ const SignIn = () => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
+    if (cookieExpired) {
+        setTimeout(() => dispatch(resetCookieExpired()), 3000);
+    }
+
     return (
         <>
+            {cookieExpired && <Notification />}
             <Container onSubmit={onSubmit}>
                 <h1 className="text-center text-4xl ">Sign In</h1>
                 <Input

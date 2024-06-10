@@ -3,8 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "../utils/axiosInstance";
 import GridCell from "../components/grid/GridCell";
 import FullScreenSpinner from "../components/FullScreenSpinner";
+import { cookieExpired } from "../redux/userSlice.js";
+import { useDispatch } from "react-redux";
 
 const ShowCompletedGame = () => {
+    const dispatch = useDispatch();
     const [gridMatrix, setGridMatrix] = useState([]);
     const [loading, setLoading] = useState(true);
     const gridDisplay = [];
@@ -22,6 +25,8 @@ const ShowCompletedGame = () => {
             } catch (error) {
                 setLoading(false);
                 console.log(error.response.data.message);
+                if (error.response.data.message === "Unauthorised")
+                    dispatch(cookieExpired());
             }
         };
 

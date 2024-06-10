@@ -9,6 +9,7 @@ import DeleteAccount from "../components/modals/DeleteAccount.jsx";
 import {
     signInOrUpdateUserSuccess,
     deleteOrSignOutUser,
+    cookieExpired,
 } from "../redux/userSlice";
 import AddSecurityQs from "../components/modals/AddSecurityQs.jsx";
 
@@ -51,6 +52,8 @@ const Profile = () => {
         } catch (error) {
             setError(error.response.data.message);
             setLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 
@@ -67,6 +70,8 @@ const Profile = () => {
         } catch (error) {
             console.log(error.response.data.message);
             setLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 
@@ -83,6 +88,8 @@ const Profile = () => {
         } catch (error) {
             console.log(error.response.data.message);
             setLoading(false);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 

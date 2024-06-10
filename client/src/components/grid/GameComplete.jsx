@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setGameComplete } from "../../redux/sudokuSlice";
 import axios from "../../utils/axiosInstance";
 import FullScreenSpinner from "../FullScreenSpinner";
+import { cookieExpired } from "../../redux/userSlice.js";
 
 const GameComplete = ({ board, onClick, mistakes }) => {
     const dispatch = useDispatch();
@@ -50,6 +51,8 @@ const GameComplete = ({ board, onClick, mistakes }) => {
         } catch (error) {
             setLoading(false);
             console.log(error.response.data.message);
+            if (error.response.data.message === "Unauthorised")
+                dispatch(cookieExpired());
         }
     };
 
