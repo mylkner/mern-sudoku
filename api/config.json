@@ -15,7 +15,7 @@
             "httpOnly": true,
             "secure": true,
             "path": "/",
-            "sameSite": "Strict"
+            "sameSite": "Lax"
         },
         "cors": {
             "origin": "https://sudoku-theta-flax.vercel.app",
